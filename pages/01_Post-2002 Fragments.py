@@ -129,7 +129,7 @@ def overview(df):
 # options = st.sidebar.radio(
 #     'Pages', options=['Overview', 'Browse content', 'Browse collectors'])
 
-dbf = os.getcwd() + '/databases/post2002DB.xlsx'
+dbf = os.getcwd() + '/post2002DB.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 
