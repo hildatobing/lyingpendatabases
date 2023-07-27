@@ -26,4 +26,4 @@ st.markdown('<h1>The Lying Pen of Scribes</h1>\n<h2>Databases and Resources</h2>
 
 ftitle = open('texts/lp_frontpage_intro.txt', 'r')
 st.write(ftitle.read())
-st.markdown(':red[To add introductory text to the project and the website.  ]')
+st.markdown(':red[Webpage still under construction.  ]')
