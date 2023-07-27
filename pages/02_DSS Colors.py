@@ -183,7 +183,7 @@ def search(df):
     hits.markdown(txt, unsafe_allow_html=True)
 
 
-dbf = os.getcwd() + '/databases/dsscolors-v1.xlsx'
+dbf = os.getcwd() + '/dsscolors-v1.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 st.header('The Colors of the Dead Sea Fragments')
