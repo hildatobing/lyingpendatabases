@@ -107,14 +107,13 @@ def overview(df):
 
 
 def decade(df):
-    st.markdown(
-        '<sup>some text here', unsafe_allow_html=True)
-    
     options = sorted(df['Decade'].unique())
     content_selected = st.selectbox(
         'Select a decade', options=options)
-    hits = st.empty()
+    # st.markdown(
+    #     '<sup>Select a decade from the dropdown list.</sup>', unsafe_allow_html=True)
     st.write('##')
+    hits = st.empty()
     
     results = df.loc[df['Decade'] == content_selected]
     for row in results.itertuples():
