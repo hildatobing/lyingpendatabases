@@ -4,7 +4,8 @@ import streamlit as st
 
 
 st.set_page_config(
-    page_title="Lying Pen | DSS Colors",
+    page_title="The Colors of the Dead Sea Scrolls Fragments",
+    layout="wide",
 )
 
 
@@ -186,7 +187,7 @@ def search(df):
 dbf = os.getcwd() + '/data/dsscolors-v1.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
-st.header('The Colors of the Dead Sea Fragments')
+st.header('The Colors of the Dead Sea Scrolls Fragments')
 st.markdown(
     '<sup>By Hilda Deborah and Signe M. Hægeland</sup>', 
     unsafe_allow_html=True)

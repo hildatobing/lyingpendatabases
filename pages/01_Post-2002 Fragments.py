@@ -4,7 +4,8 @@ import streamlit as st
 
 
 st.set_page_config(
-    page_title="Lying Pen | Post-2002 DSS-like Fragments",
+    page_title="Post-2002 Dead Sea Scrolls-like Fragments",
+    layout="wide",
 )
 
 def format_markdown(df_columns, df_row, mode=0):

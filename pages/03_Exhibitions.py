@@ -7,6 +7,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Dead Sea Scrolls Exhibitions in the 20th and 21st Centuries",
+    layout="wide",
 )
 
 
@@ -103,7 +104,8 @@ def overview(df):
     
     df['Start Date'] = pd.to_datetime(df['Start Date']).dt.date
     df['End Date'] = pd.to_datetime(df['End Date']).dt.date
-    st.dataframe(df.iloc[:, :-3], hide_index=True)
+
+    st.dataframe(df.iloc[:, :-4], hide_index=True)
 
 
 def decade(df):
@@ -139,7 +141,7 @@ def render_map(df):
     st.plotly_chart(fig)
 
 
-dbf = os.getcwd() + '/data/exhibition.xlsx'
+dbf = os.getcwd() + '/data/exhibition-v2.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 st.header('Dead Sea Scrolls Exhibitions in the 20th and 21st Centuries')
@@ -152,9 +154,7 @@ st.write(
     'ons worldwide. These exhibitions span over seven decades, from 1949 to the late 2010'\
     's, and over six continents. But most of them have taken place in the US. This articl'\
     'e describes a database of these exhibitions. The database contains information about'\
-    ' exhibition venues, dates, curators, et cetera, manually collected and catalogued. B'\
-    'y doing this, the article and its complimentary database substantially contribute to'\
-    ' the reception history concerning the scrolls.')
+    ' exhibition venues, dates, curators, et cetera, manually collected and catalogued.')
 
 
 
