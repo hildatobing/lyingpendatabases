@@ -96,7 +96,7 @@ def overview(df):
     df['Start Date'] = pd.to_datetime(df['Start Date']).dt.date
     df['End Date'] = pd.to_datetime(df['End Date']).dt.date
 
-    st.dataframe(df.iloc[:, :], hide_index=True)
+    st.dataframe(df.iloc[:, :-2], hide_index=True)
 
 
 def decade(df):
