@@ -120,6 +120,8 @@ def decade(df):
     results = df.loc[df['Decade'] == content_selected]
     for row in results.itertuples():
         enddate = '' if pd.isna(row._3) else ' - ' + format_date(row._3)
+        # For permanent exhibition
+        ...
         with st.expander(format_date(row._2) + enddate):
             format_markdown(row)
 
