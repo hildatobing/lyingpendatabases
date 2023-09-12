@@ -32,19 +32,10 @@ def format_list(items, delimiter='', ordered=False):
         output = '<ol>' if ordered else '<ul>'
         for item in items:
             if not item.isspace():
-                # This is assuming that ordered list will only be used for Sources,
-                # where we would need to clean up the shown url
-                if ordered:
-                    output += '<li>' + format_with_url(item) + '</li>'
-                # Unordered/bullet point list is used for exhibited items
-                else:
-                    output += '<li>' + item + '</li>'
+                output += '<li>' + item + '</li>'
         output += '</ol>' if ordered else '</ul>'
     else:
-        if ordered:
-            output = format_with_url(items[0])
-        else:
-            output = items[0]
+        output = items[0]
     return output
 
 
@@ -55,7 +46,7 @@ def format_date(df_date):
     return ' '.join([dd, mm, yy])
 
 
-def format_markdown(df_row):
+def format_markdown(df_row, rotation=False):
     # Exhibition name
     output = '<h5>' + df_row.Exhibition + '</h5>\n\n'
 
@@ -89,7 +80,7 @@ def format_markdown(df_row):
     if pd.isna(df_row.Sources):
         output += '-'
     else:
-        output += '</br>' + format_list(df_row.Sources, delimiter='\n\n', ordered=True)
+        output += '</br>' + format_list(df_row.Sources, delimiter='\n\n', ordered=False)
     output += '</p>'
 
     st.markdown(output, unsafe_allow_html=True)
@@ -105,7 +96,7 @@ def overview(df):
     df['Start Date'] = pd.to_datetime(df['Start Date']).dt.date
     df['End Date'] = pd.to_datetime(df['End Date']).dt.date
 
-    st.dataframe(df.iloc[:, :-4], hide_index=True)
+    st.dataframe(df.iloc[:, :], hide_index=True)
 
 
 def decade(df):
@@ -119,11 +110,31 @@ def decade(df):
     
     results = df.loc[df['Decade'] == content_selected]
     for row in results.itertuples():
-        enddate = '' if pd.isna(row._3) else ' - ' + format_date(row._3)
-        # For permanent exhibition
-        ...
-        with st.expander(format_date(row._2) + enddate):
-            format_markdown(row)
+        
+        if pd.isna(row.Rotation):
+            startdate = format_date(row._2)
+            enddate = '' if pd.isna(row._3) else ' - ' + format_date(row._3)
+            permanent = True if pd.isna(row._3) else False
+            title = 'Permanent exhibition since ' + startdate if \
+                permanent else (startdate + enddate)
+            with st.expander(title):
+                format_markdown(row)
+        else:
+            rot_id, rot_n, rot_order = row.Rotation.split(';')
+            if rot_order == '1':
+                temp = results[results.Rotation == results.Rotation]
+                idx = []
+                for i in range(int(rot_n)):
+                    q = ';'.join([rot_id, rot_n, str(i+1)])
+                    idx.append(temp.index[temp.Rotation == q][0])
+                
+                inrotation = df.iloc[idx]
+                title = format_date(inrotation.iloc[0]['Start Date']) + ' - ' +\
+                    format_date(inrotation.iloc[-1]['End Date'])
+                with st.expander(title):
+                    st.markdown(':red[Exhibition with rotation still under construction]')
+                    #format_markdown(inrotation, rotation=True)
+
 
     counter = len(results)
     if counter == 0:
