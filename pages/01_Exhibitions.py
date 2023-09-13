@@ -7,7 +7,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Dead Sea Scrolls Exhibitions in the 20th and 21st Centuries",
-    layout="wide",
+    layout="wide", page_icon='assets/Icon.png',
 )
 
 
@@ -45,53 +45,55 @@ def format_date(df_date):
     yy = str(df_date.year)
     return ' '.join([dd, mm, yy])
 
+def format_markdown_longline(col, cell):
+    st.markdown('**' + col + ':** <br>' + cell, unsafe_allow_html=True)
+
+def format_markdown_shortline(col, cell):
+    st.markdown('**' + col + ':** ' + cell, unsafe_allow_html=True)
+
 
 def format_markdown(df_row, rotation=False):
     # Exhibition name
-    output = '<h5>' + df_row.Exhibition + '</h5>\n\n'
+    st.markdown('<h5>' + df_row.Exhibition + '</h5>\n\n', 
+                unsafe_allow_html=True)
 
     # Venue and location
+    output = ''
     if not pd.isna(df_row.Venue):
         output += df_row.Venue + ', '
     if not pd.isna(df_row.Location):
         output += df_row.Location
+    st.markdown(output, unsafe_allow_html=True)
     
     # Visitors and guide
-    output += '<p>'
     if not pd.isna(df_row._9):
-        output += '**Numbers of visitors:** ' + str(df_row._9)
+        format_markdown_shortline('Numbers of visitors', df_row._9)
     if not pd.isna(df_row.Guide):
-        output += '**Guide:** ' + df_row.Guide
-    output += '</p>'
+        format_markdown_shortline('Guide', df_row.Guide)
 
-    # Exhibited items
-    output += '<p>**Dead Sea Scrolls exhibited:** '
-    if pd.isna(df_row._7):
-        output += 'Unknown'
-    else:
-        output += '</br>' + format_list(df_row._7, delimiter=';', ordered=False)
-    output += '</p>'
-    if not pd.isna(df_row._10):
-        output += '<p>**Other items exhibited:** </br>' + \
-            format_list(df_row._10, delimiter=';', ordered=False) + '</p>'
+    # # Exhibited items
+    # output += '<p>**Dead Sea Scrolls exhibited:** '
+    # if pd.isna(df_row._7):
+    #     output += 'Unknown'
+    # else:
+    #     output += '</br>' + format_list(df_row._7, delimiter=';', ordered=False)
+    # output += '</p>'
+    # if not pd.isna(df_row._10):
+    #     output += '<p>**Other items exhibited:** </br>' + \
+    #         format_list(df_row._10, delimiter=';', ordered=False) + '</p>'
     
-    # Sources
-    output += '<p>**Sources:** '
-    if pd.isna(df_row.Sources):
-        output += '-'
-    else:
-        output += '</br>' + format_list(df_row.Sources, delimiter='\n\n', ordered=False)
-    output += '</p>'
+    # # Sources
+    # output += '<p>**Sources:** '
+    # if pd.isna(df_row.Sources):
+    #     output += '-'
+    # else:
+    #     output += '</br>' + format_list(df_row.Sources, delimiter='\n\n', ordered=False)
+    # output += '</p>'
 
-    st.markdown(output, unsafe_allow_html=True)
+    # st.markdown(output, unsafe_allow_html=True)
 
 
 def overview(df):
-    st.markdown(
-        '<sup>Below are all color description entries found in the database. The '\
-        'header or column name is clickable, and is useful to sort the database b'\
-        'ased on the selected column, either in ascending or descending order.'\
-        '</sup>', unsafe_allow_html=True)
     
     df['Start Date'] = pd.to_datetime(df['Start Date']).dt.date
     df['End Date'] = pd.to_datetime(df['End Date']).dt.date

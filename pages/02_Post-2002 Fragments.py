@@ -5,7 +5,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Post-2002 Dead Sea Scrolls-like Fragments",
-    layout="wide",
+    layout="wide", page_icon='assets/Icon.png'
 )
 
 def align(text, alignment='left'):
@@ -35,7 +35,10 @@ def format_markdown_purchase(col, cell):
     st.markdown(
         '**' + bold + '** (' + reg + ')**:** <br>' + str(cell), 
         unsafe_allow_html=True)
-
+    
+def format_markdown_orcid(orcid):
+    return '<sup>[![](https://info.orcid.org/wp-content/uploads/2019/11/'\
+        'orcid_16x16.png)](https://orcid.org/' + orcid + ')</sup>'
 
 def format_markdown(col_names, row, mode=0):
     skip = 4 if mode == 0 else 1
@@ -119,11 +122,19 @@ def collectors(df):
     hits.markdown(txt, unsafe_allow_html=True)
 
 
+def search(df):
+    query = str(st.text_input('Enter a keyword', ''))
+    st.markdown(
+        ':red[<sup>UNDER CONSTRUCTION.</sup>]', unsafe_allow_html=True)
+    hits = st.empty()
+    st.write('##')
+
+
 def overview(df):
-    st.dataframe(df.iloc[:, 1:-1], hide_index=True)
-
-    st.markdown('\n **Legend:**\n\n :red[To be added]')
-
+    # Selecting columns to show
+    cols = list(range(1, 17))
+    cols.append(19)
+    st.dataframe(df.iloc[:, cols], hide_index=True)
 
 
 dbf = os.getcwd() + '/data/post2002DB-v2.xlsx'
@@ -131,22 +142,27 @@ df = pd.read_excel(dbf, dtype=str)
 
 
 st.header('A Database of Post-2002 Dead Sea Scrolls-like Fragments')
-st.markdown(
-    '<sup>By Ludvik A. Kjeldsberg, Årstein Justnes, and Hilda Deborah</sup>', 
-    unsafe_allow_html=True)
+
+authors = 'Ludvik A. Kjeldsberg ' + format_markdown_orcid('0000-0001-5268-4983') + ', '
+authors += 'Årstein Justnes ' + format_markdown_orcid('0000-0001-6448-0507') + ', and '
+authors += 'Hilda Deborah ' + format_markdown_orcid('0000-0003-3779-2569')
+st.markdown('By ' + authors, unsafe_allow_html=True)
+st.markdown('##')
 
 st.markdown(
     'Since 2002, more than 100 "new" Dead Sea Scrolls-like fragments have '\
     'appeared on the antiquities market. The researchers in the Lying Pen of'\
     ' Scribes have made great efforts in catalouging these fragments. :red['\
     '(To be updated)]')
+st.markdown('##')
 
-tabs = st.tabs(['Overview', 'Filter collector', 'Filter content'])
+tabs = st.tabs(['Overview', 'Filter collector', 'Filter content', 
+                'Search keyword'])
 
 
 tab_collector = tabs[0]
 with tab_collector:
-    st.write('##')
+    # st.write('##')
     overview(df)
 
 tab_collector = tabs[1]
@@ -158,3 +174,9 @@ tab_content = tabs[2]
 with tab_content:
     st.write('##')
     content(df)
+
+tab_search = tabs[3]
+with tab_search:
+    st.write('##')
+    search(df)
+
