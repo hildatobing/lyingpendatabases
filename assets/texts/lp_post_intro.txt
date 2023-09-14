@@ -1,0 +1,3 @@
+<p>Since 2002, over 100 “new” Dead Sea Scroll fragments have appeared on the antiquities market. These tiny fragments, some of which have been compared to blackened cornflake pieces, have had a big impact on the field of scroll research.</p>
+
+<p>To read all entries listed in this database, see the <b>Overview</b> tab. The <b>Filter Collector</b> tab allows you to perform advanced searches for individuals and organisations that have previously owned fragments. The tab <b>Filter Content</b> will give all entries grouped by its content which was specifically entered by the responsible editor, accompanied by a visualisation of their distribution across the group. Finally, the tab <b>Search</b> allows a free text search.</p>

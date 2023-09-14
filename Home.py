@@ -21,13 +21,16 @@ st.set_page_config(
 
 
 # st.markdown('<h1>The Lying Pen of Scribes</h1>\n<h2>Databases and Resources</h2>', unsafe_allow_html=True)
-st.title('The Lying Pen of Scribes')
-st.subheader(
-    'Manuscript Forgeries, Digital Imaging, and Critical Provenance Research (RCN FRIPRO'\
-    ' Toppforsk 2019-2024)')
+st.header('The Lying Pen of Scribes Dead Sea Scroll Databases')
+st.markdown('##')
+ftitle = open('assets/texts/lp_frontpage_intro.txt', 'r')
+st.markdown(
+    '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
+st.markdown('##')
 
-ftitle = open('texts/lp_frontpage_intro.txt', 'r')
+st.subheader('The Lying Pen of Scribes Research Project')
+ftitle = open('assets/texts/lp_frontpage_project.txt', 'r')
 st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 
-st.markdown(':red[Intro for the webpage, that it is for datasets and resources]')
+# st.markdown(':red[Intro for the webpage, that it is for datasets and resources]')
