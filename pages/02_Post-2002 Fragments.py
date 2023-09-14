@@ -82,11 +82,11 @@ def content_graph(sub_df, groups):
     
     # Plot chart
     bar = pd.DataFrame(
-        {'Canonical distribution':data[:, 0], 'Number of fragments':data[:, 1],
-         'Canonical group':data[:, 2]})
+        {'Texts':data[:, 0], 'Number of fragments':data[:, 1],
+         'Text groups':data[:, 2]})
     fig = px.bar(
-        bar, x='Canonical distribution', y='Number of fragments', 
-        color='Canonical group', 
+        bar, x='Texts', y='Number of fragments', 
+        color='Text groups', title='Post-2002 fragments\' textual distribution',
         color_discrete_sequence=px.colors.qualitative.Safe)
     fig.update_xaxes(tickangle=-45)
     fig.update_yaxes(range=[0, 13])
@@ -99,12 +99,11 @@ def content(df):
     groups = [g.split(', ') for g in df['Content group'].unique()]
     groups.sort(key=lambda x: int(x[1]))
 
-    # st.markdown(':red[Visualisation temporarily removed]')
     content_graph(sub_df, groups)
 
     options = [x[0] for x in groups]
     content_selected = st.selectbox(
-        'Select the content group', options=options)
+        'Select a grouping option', options=options)
     st.write('##')
     hits = st.empty()
 
@@ -124,10 +123,10 @@ def content(df):
 def collectors(df):
     query = st.text_input('Enter collector name', '').lower()
     st.markdown(
-        '<sup>Type in the name of a collector to show all Sales and Donations rec'\
-        'orded with the collector. You can also use the keyword "NOT", e.g., "NOT'\
-        ' Kando" to show all materials recorded without the name "Kando".</sup>', 
-        unsafe_allow_html=True)
+        '<sup>Type in the name of a collector to show all Sale, Donation, and Col'\
+        'laboration recorded with the collector. You can also use the keyword "NO'\
+        'T", e.g., "NOT Kando" to show all materials recorded without the name "K'\
+        'ando".</sup>', unsafe_allow_html=True)
     st.write('##')
     hits = st.empty()
 
@@ -138,10 +137,12 @@ def collectors(df):
         query = ''.join(query.split(' ')[1:])
 
     results = None
+    col_names = df.columns.values.tolist()
+    sale_col = [col for col in col_names if col.startswith('Sale')][0]
     if neg_flag:
-        results = df[~df["Sales (➤) and Donations (➢)"].str.lower().str.contains(query)]
+        results = df[~df[sale_col].str.lower().str.contains(query)]
     else:
-        results = df[df["Sales (➤) and Donations (➢)"].str.lower().str.contains(query)]
+        results = df[df[sale_col].str.lower().str.contains(query)]
 
     for row in results.itertuples():
         with st.expander(row.Content):
@@ -173,9 +174,8 @@ def search(df):
         counter = len(results)
 
         for res in results.itertuples():
-
             with st.expander(res.Content):
-                format_markdown(df1.columns.values, res)
+                format_markdown(df1.columns.values, res, skip=2)
 
         if counter == 0:
             txt = ':red[No entries found]'
