@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import pandas as pd
-# import plotly.express as px
+import plotly.express as px
 import streamlit as st
 
 
@@ -71,27 +71,27 @@ def format_markdown(col_names, row, skip=0, searchres=False):
                 format_markdown_longline(col, 'Unknown')
 
 
-# def content_graph(sub_df, groups):
-#     data = []
-#     for val, cnt in df['Content group'].value_counts().items():
-#         label, order = val.split(', ')
-#         canon = sub_df[sub_df['Content group'] == val].iloc[0]['Canonical group']
-#         data.append([int(order), label, cnt, canon])
-#     data.sort(key=lambda x: int(x[0]))
-#     data = np.array(data)[:, 1:]
+def content_graph(sub_df, groups):
+    data = []
+    for val, cnt in df['Content group'].value_counts().items():
+        label, order = val.split(', ')
+        canon = sub_df[sub_df['Content group'] == val].iloc[0]['Canonical group']
+        data.append([int(order), label, cnt, canon])
+    data.sort(key=lambda x: int(x[0]))
+    data = np.array(data)[:, 1:]
     
-#     # Plot chart
-#     bar = pd.DataFrame(
-#         {'Canonical distribution':data[:, 0], 'Number of fragments':data[:, 1],
-#          'Canonical group':data[:, 2]})
-#     fig = px.bar(
-#         bar, x='Canonical distribution', y='Number of fragments', 
-#         color='Canonical group', 
-#         color_discrete_sequence=px.colors.qualitative.Safe)
-#     fig.update_xaxes(tickangle=-45)
-#     fig.update_yaxes(range=[0, 13])
-#     st.plotly_chart(fig, use_container_width=True)
-#     st.write('##')
+    # Plot chart
+    bar = pd.DataFrame(
+        {'Canonical distribution':data[:, 0], 'Number of fragments':data[:, 1],
+         'Canonical group':data[:, 2]})
+    fig = px.bar(
+        bar, x='Canonical distribution', y='Number of fragments', 
+        color='Canonical group', 
+        color_discrete_sequence=px.colors.qualitative.Safe)
+    fig.update_xaxes(tickangle=-45)
+    fig.update_yaxes(range=[0, 13])
+    st.plotly_chart(fig, use_container_width=True)
+    st.write('##')
 
 
 def content(df):
@@ -99,8 +99,8 @@ def content(df):
     groups = [g.split(', ') for g in df['Content group'].unique()]
     groups.sort(key=lambda x: int(x[1]))
 
-    st.markdown(':red[Visualisation temporarily removed]')
-    # content_graph(sub_df, groups)
+    # st.markdown(':red[Visualisation temporarily removed]')
+    content_graph(sub_df, groups)
 
     options = [x[0] for x in groups]
     content_selected = st.selectbox(
