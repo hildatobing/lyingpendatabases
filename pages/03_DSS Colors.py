@@ -165,8 +165,7 @@ def search(df):
     counter = 0
     if len(query) > 0:
         highlighted = ':blue[***' + query + '***]'
-        results = df[df['Color description'].str.lower().str.contains(
-                query.lower())]
+        results = df[df['Color description'].str.contains(query, case=False)]
         results['Color description'] = results['Color description'].apply(
             lambda x: x.casefold().replace(query.casefold(), highlighted))
         
@@ -186,6 +185,9 @@ def search(df):
 
 dbf = os.getcwd() + '/data/dsscolors-v1.xlsx'
 df = pd.read_excel(dbf, dtype=str)
+
+for v in st.session_state:
+    print(v)
 
 st.header('The Colors of the Dead Sea Scrolls Fragments')
 st.markdown(

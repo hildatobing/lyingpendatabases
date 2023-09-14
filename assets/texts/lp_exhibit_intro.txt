@@ -1,0 +1,3 @@
+<p>Since their discovery in 1947, the Dead Sea Scrolls have been exhibited in over 160 exhibitions worldwide. This comprehensive database indexes all these exhibitions and provides valuable information about their dates, venues, the number of visitors, and the specific objects on display. Thus, delivering a powerful research tool that offers a unique opportunity for scholars to examine the scrolls from the perspective of their reception.</p>
+
+<p>All the entries listed in this database are found under the <b>Overview</b> tab. The tab <b>Filter Decade</b> will allow you to browse specific exhibitions occurring in the decade of your choice.</p>
