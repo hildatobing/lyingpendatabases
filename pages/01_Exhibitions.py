@@ -7,7 +7,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Dead Sea Scrolls Exhibitions in the 20th and 21st Centuries",
-    layout="wide", page_icon='assets/Icon.png',
+    page_icon='assets/Icon.png',
 )
 
 

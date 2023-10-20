@@ -7,7 +7,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Post-2002 Dead Sea Scrolls-like Fragments",
-    layout="wide", page_icon='assets/Icon.png'
+    page_icon='assets/Icon.png'
 )
 
 def five_colors():

@@ -5,7 +5,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="The Colors of the Dead Sea Scrolls Fragments",
-    layout="wide", page_icon='assets/Icon.png',
+    page_icon='assets/Icon.png',
 )
 
 
