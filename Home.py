@@ -16,7 +16,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="Lying Pen Databases and Resources",
-    layout="wide", page_icon='assets/Icon.png'
+    page_icon='assets/Icon.png'
 )
 
 
