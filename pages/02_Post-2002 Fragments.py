@@ -215,26 +215,20 @@ st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 st.markdown('##')
 
-tabs = st.tabs(['Overview', 'Filter collector', 'Filter content', 
-                'Search'])
+tabs = st.tabs(['Overview', 'Filter content', 'Search'])
 
 
-tab_collector = tabs[0]
-with tab_collector:
+tab_overview = tabs[0]
+with tab_overview:
     st.write('##')
     overview(df)
 
-tab_collector = tabs[1]
-with tab_collector:
-    st.write('##')
-    collectors(df)
-
-tab_content = tabs[2]
+tab_content = tabs[1]
 with tab_content:
     st.write('##')
     content(df)
 
-tab_search = tabs[3]
+tab_search = tabs[2]
 with tab_search:
     st.write('##')
     search(df)
