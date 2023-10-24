@@ -198,8 +198,9 @@ dbf = os.getcwd() + '/data/post2002DB-v2.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 # Selection of columns to show and process in this page
-cols = list(range(0, 22))
-cols = [x for x in cols if x not in [4, 17, 18]]
+cols = list(range(0, 23))
+cols = [x for x in cols if x not in [4, 18, 19]]
+print(cols)
 df = df.iloc[:, cols]
 
 st.header('The Post-2002 Dead Sea Scroll-like fragments')
