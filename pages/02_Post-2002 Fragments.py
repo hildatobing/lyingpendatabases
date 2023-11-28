@@ -58,6 +58,8 @@ def format_markdown(col_names, row, skip=0, searchres=False):
                 format_markdown_purchase(col, cell)
             elif col.lower().startswith('asking'):
                 format_markdown_longline(col, cell)
+            elif col.lower().startswith('sale'):
+                format_markdown_longline(col, cell)
             elif col.lower() == 'sources':
                 format_markdown_list(
                     col, cell, delimiter='\n\n', ordered=False)
@@ -88,7 +90,7 @@ def content_histogram(sub_df, groups):
          'Text groups':data[:, 2]})
     fig = px.bar(
         bar, x='Texts', y='Number of fragments', 
-        color='Text groups', title='Post-2002 fragments\' textual distribution',
+        color='Text groups', title='Textual distribution of Post-2002 Fragments',
         color_discrete_sequence=px.colors.qualitative.Safe)
     fig.update_xaxes(tickangle=-45)
     fig.update_yaxes(range=[0, 13])
@@ -101,7 +103,7 @@ def content(df):
     groups = [g.split(', ') for g in df['Content Group'].unique()]
     groups.sort(key=lambda x: int(x[1]))
 
-    content_histogram(sub_df, groups)
+    # content_histogram(sub_df, groups)
 
     options = [x[0] for x in groups]
     content_selected = st.selectbox(
@@ -121,43 +123,6 @@ def content(df):
         txt = ':blue[' + str(counter) + ' of ' + str(len(df)) + ' hits]'
     hits.markdown(txt, unsafe_allow_html=True)
                 
-
-def collectors(df):
-    query = st.text_input('Enter collector name', '').lower()
-    st.markdown(
-        '<sup>Type in the name of a collector to show all Sale, Donation, and Col'\
-        'laboration recorded with the collector. You can also use the keyword "NO'\
-        'T", e.g., "NOT Kando" to show all materials recorded without the name "K'\
-        'ando".</sup>', unsafe_allow_html=True)
-    st.write('##')
-    hits = st.empty()
-
-    # Check negation
-    neg_flag = False
-    if query.startswith('not'):
-        neg_flag = True
-        query = ''.join(query.split(' ')[1:])
-
-    results = None
-    col_names = df.columns.values.tolist()
-    sale_col = [col for col in col_names if col.startswith('Sale')][0]
-    if neg_flag:
-        results = df[~df[sale_col].str.lower().str.contains(query)]
-    else:
-        results = df[df[sale_col].str.lower().str.contains(query)]
-
-    for row in results.itertuples():
-        with st.expander(row.Content):
-            format_markdown(list(df.columns.values), row, skip=2)
-
-    st.write('##')
-    counter = len(results)
-    if counter == 0:
-        txt = ':red[No entries found]'
-    else:
-        txt = ':blue[' + str(counter) + ' of ' + str(len(df)) + ' hits]'
-    hits.markdown(txt, unsafe_allow_html=True)
-
 
 def search(df):
     df1 = df.copy()
@@ -212,6 +177,12 @@ def get_rgba_hex(color_array, alpha=.8):
     return rgba_tuples, hex
 
 def gallery():
+    sub_df = df[['Content Group', 'Canonical Group']]
+    groups = [g.split(', ') for g in df['Content Group'].unique()]
+    groups.sort(key=lambda x: int(x[1]))
+
+    content_histogram(sub_df, groups)
+
     sankeyf = os.getcwd() + '/data/post2002-sankeyvis-changeofhands.csv'
     sankeydf = pd.read_csv(sankeyf, sep=';', encoding='utf-8')
     
@@ -243,10 +214,14 @@ def gallery():
     st.caption(
         'This diagram visualizes the change of hands of Post-2002 Fragments, including s'\
         'ale and donation. For example, hovering the flow between William Kando and Schø'\
-        'yen Collection will show the number 22.0, source: William Kando, and target: Sc'\
-        'høyen Collection. This means that there has been 22 purchases from the Schøyen '\
-        'Collection from William Kando. Note that this visualisation emphasizes flow and'\
-        'not time. Representatives in a sale is also not visualised in this diagram.'
+        'yen Collection will show the number 22.0, "source: William Kando", and "target:'\
+        ' Schøyen Collection". This means that there has been 22 purchases from the Schø'\
+        'yen Collection from William Kando. Note that this visualisation emphasizes flow'\
+        ' and not time. Representatives in a sale is also not visualised in this diagram'\
+        '. If we hover on the node of William Kando, we can see the number 55.0, "incomi'\
+        'ng flow count: 0", and "outgoing flow count: 12". This is to be interpreted as '\
+        'Kando has sold or donated 55 times, to 12 different people and/or institutions.'\
+        ' Zero incoming flow count means that all the 55 items were traced back to him.'
     )
     st.caption(
         'As a note, the actor "RE: William Kando" is the same as "William Kando". They a'\
@@ -270,13 +245,12 @@ def overview(df):
     st.dataframe(df1.iloc[:, :-2], hide_index=True)
 
 
-dbf = os.getcwd() + '/data/post2002DB-v2-1.xlsx'
+dbf = os.getcwd() + '/data/post2002DB-v2-2.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 # Selection of columns to show and process in this page
 cols = list(range(0, 23))
 cols = [x for x in cols if x not in [1, 18, 19]]
-# print(cols)
 df = df.iloc[:, cols]
 
 st.header('The Post-2002 Dead Sea Scroll-like fragments')
@@ -292,7 +266,7 @@ st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 st.markdown('##')
 
-tabs = st.tabs(['Overview', 'Filter content', 'Search', 'Gallery'])
+tabs = st.tabs(['Overview', 'Filter content', 'Search', 'Visualisations Gallery'])
 
 
 tab_overview = tabs[0]
