@@ -35,6 +35,11 @@ def format_markdown(df_row, mode=0):
     st.markdown(output, unsafe_allow_html=True)
 
 
+def format_markdown_orcid(orcid):
+    return '<sup>[![](https://info.orcid.org/wp-content/uploads/2019/11/'\
+        'orcid_16x16.png)](https://orcid.org/' + orcid + ')</sup>'
+
+
 def overview(df):
     st.markdown(
         '<sup>Below are all color description entries found in the database. The '\
@@ -155,7 +160,7 @@ def editor(df):
 
 
 def search(df):
-    query = str(st.text_input('Enter a keyword', ''))
+    query = str(st.text_input('Enter a query', ''))
     st.markdown(
         '<sup>Type in a keyword to find all entries that contains it in the color'\
         ' description.</sup>', unsafe_allow_html=True)
@@ -186,13 +191,13 @@ def search(df):
 dbf = os.getcwd() + '/data/dsscolors-v1.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
-for v in st.session_state:
-    print(v)
 
 st.header('The Colors of the Dead Sea Scrolls Fragments')
-st.markdown(
-    '<sup>By Hilda Deborah and Signe M. Hægeland</sup>', 
-    unsafe_allow_html=True)
+authors = 'Hilda Deborah ' + format_markdown_orcid('0000-0003-3779-2569')
+authors += ' and Signe M. Hægeland'
+st.markdown('By ' + authors, unsafe_allow_html=True)
+st.markdown('##')
+
 st.markdown(
     'Color is often used as the physical description of Dead Sea scrolls and frag'\
     'ments. This is especially true throughout the volumes of the Discoveries in '\
@@ -206,11 +211,11 @@ st.markdown(
     'ab **Filter DJD volumes** will allow you read database entries on specific D'\
     'JD volumes or those found in other publications. The tab **Filter editor** w'\
     'ill give all entries specifically entered by the entered responsible editor.'\
-    ' Finally, the tab **Search keyword** allows finding a specific keyword, e.g.'\
-    ', "blue" is found in any of the Color description entries.'
+    ' Finally, the tab **Search** allows finding a specific keyword, e.g., "blue"'\
+    ', in the Color description entries.'
 )
 
-tabs = st.tabs(['Overview', 'Filter DJD volumes', 'Filter editor', 'Search keyword'])
+tabs = st.tabs(['Overview', 'Filter DJD volumes', 'Filter editor', 'Search'])
 
 tab_collector = tabs[0]
 with tab_collector:
