@@ -234,21 +234,30 @@ def gallery():
         node = {"label": list(set_nodes), "thickness":35, "pad":10,
                 "color": [hex[i % len(hex)] for i in np.arange(len(set_nodes))],},
         link = {"source": source, "target": target, "value": count,#}
-                "color": [rgba[i % len(hex)] for i in source]}
+                "color": [rgba[i % len(hex)] for i in source],
+                "sourcesrc": 'Seller'}
     )])
     fig.update_layout(
         title_text='Flow diagram of the sale and donation of Post-2002 Fragments', height=600)
     st.plotly_chart(fig, use_container_width=True)
     st.caption(
+        'This diagram visualizes the change of hands of Post-2002 Fragments, including s'\
+        'ale and donation. For example, hovering the flow between William Kando and Schø'\
+        'yen Collection will show the number 22.0, source: William Kando, and target: Sc'\
+        'høyen Collection. This means that there has been 22 purchases from the Schøyen '\
+        'Collection from William Kando. Note that this visualisation emphasizes flow and'\
+        'not time. Representatives in a sale is also not visualised in this diagram.'
+    )
+    st.caption(
+        'As a note, the actor "RE: William Kando" is the same as "William Kando". They a'\
+        're shown as different actors to avoid having a looped connection for the same '\
+        'actor, which will significantly reduce the readability of this visualisation.'
+    )
+    st.caption(
         '**Abbreviations:** \n - LMI: Legacy Ministries International \n - ATS: Ashland '\
         'Theological Seminary \n - APU: Azusa Pacific University \n - SBTS: Southwestern'\
         ' Baptist Theological Seminary \n - NCF: National Christian Foundation',
         unsafe_allow_html=True)
-    st.caption(
-        '**Note:** The actor "RE: William Kando" is the same as "William Kando". They '\
-        'are shown as different actors to avoid having a looped connection for the same'\
-        'actor, which will significantly reduce the readability of this visualisation.'
-    )
     st.write('##')
     
 
