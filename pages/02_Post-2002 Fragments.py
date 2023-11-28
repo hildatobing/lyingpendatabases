@@ -244,6 +244,11 @@ def gallery():
         'Theological Seminary \n - APU: Azusa Pacific University \n - SBTS: Southwestern'\
         ' Baptist Theological Seminary \n - NCF: National Christian Foundation',
         unsafe_allow_html=True)
+    st.caption(
+        '**Note:** The actor "RE: William Kando" is the same as "William Kando". They '\
+        'are shown as different actors to avoid having a looped connection for the same'\
+        'actor, which will significantly reduce the readability of this visualisation.'
+    )
     st.write('##')
     
 
