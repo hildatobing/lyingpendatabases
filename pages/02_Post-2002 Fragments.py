@@ -75,31 +75,8 @@ def format_markdown(col_names, row, skip=0, searchres=False):
                 format_markdown_longline(col, 'Unknown')
 
 
-def content_histogram(sub_df, groups):
-    data = []
-    for val, cnt in df['Content Group'].value_counts().items():
-        label, order = val.split(', ')
-        canon = sub_df[sub_df['Content Group'] == val].iloc[0]['Canonical Group']
-        data.append([int(order), label, cnt, canon])
-    data.sort(key=lambda x: int(x[0]))
-    data = np.array(data)[:, 1:]
-    
-    # Plot chart
-    bar = pd.DataFrame(
-        {'Texts':data[:, 0], 'Number of fragments':data[:, 1],
-         'Text groups':data[:, 2]})
-    fig = px.bar(
-        bar, x='Texts', y='Number of fragments', 
-        color='Text groups', title='Textual distribution of Post-2002 Fragments',
-        color_discrete_sequence=px.colors.qualitative.Safe)
-    fig.update_xaxes(tickangle=-45)
-    fig.update_yaxes(range=[0, 13])
-    st.plotly_chart(fig, use_container_width=True)
-    st.write('##')
-
-
 def content(df):
-    sub_df = df[['Content Group', 'Canonical Group']]
+    # sub_df = df[['Content Group', 'Canonical Group']]
     groups = [g.split(', ') for g in df['Content Group'].unique()]
     groups.sort(key=lambda x: int(x[1]))
 
@@ -137,6 +114,7 @@ def search(df):
         mask = np.column_stack(
             [df1[col].str.contains(post_query, case=False, na=False) \
              for col in df1])
+        print(mask)
         results = df1.loc[mask.any(axis=1)]
         counter = len(results)
 
@@ -176,16 +154,37 @@ def get_rgba_hex(color_array, alpha=.8):
         
     return rgba_tuples, hex
 
-def gallery():
-    sub_df = df[['Content Group', 'Canonical Group']]
-    groups = [g.split(', ') for g in df['Content Group'].unique()]
-    groups.sort(key=lambda x: int(x[1]))
 
-    content_histogram(sub_df, groups)
-
-    sankeyf = os.getcwd() + '/data/post2002-sankeyvis-changeofhands.csv'
-    sankeydf = pd.read_csv(sankeyf, sep=';', encoding='utf-8')
+def gallery_histogram(sub_df, groups):
+    data = []
+    for val, cnt in df['Content Group'].value_counts().items():
+        label, order = val.split(', ')
+        canon = sub_df[sub_df['Content Group'] == val].iloc[0]['Canonical Group']
+        data.append([int(order), label, cnt, canon])
+    data.sort(key=lambda x: int(x[0]))
+    data = np.array(data)[:, 1:]
     
+    # Plot chart
+    bar = pd.DataFrame(
+        {'Texts':data[:, 0], 'Number of fragments':data[:, 1],
+         'Text groups':data[:, 2]})
+    fig = px.bar(
+        bar, x='Texts', y='Number of fragments', 
+        color='Text groups', title='Textual distribution of Post-2002 Fragments',
+        color_discrete_sequence=px.colors.qualitative.Safe)
+    fig.update_xaxes(tickangle=-45)
+    fig.update_yaxes(range=[0, 13])
+    st.plotly_chart(fig, use_container_width=True)
+    st.caption(
+        'Distribution of the post-2002 fragments according to their textual content. '\
+        'Nearly 90\% of fragments with recognisable content feature text found in the'\
+        ' Old Testament. There are also fragments which have been identified with non'\
+        '-biblical Qumran manuscripts. 11 fragments have text that is not identified.'
+    )
+    st.write('##')
+
+
+def gallery_sankey(sankeydf):
     # The operation '|' is a set union
     set_nodes = set(sankeydf['Seller']) | set(sankeydf['Buyer'])
     dict_nodes = dict(zip(set_nodes, np.arange(len(set_nodes))))
@@ -234,6 +233,19 @@ def gallery():
         ' Baptist Theological Seminary \n - NCF: National Christian Foundation',
         unsafe_allow_html=True)
     st.write('##')
+
+
+def gallery():
+    sub_df = df[['Content Group', 'Canonical Group']]
+    groups = [g.split(', ') for g in df['Content Group'].unique()]
+    groups.sort(key=lambda x: int(x[1]))
+
+    gallery_histogram(sub_df, groups)
+
+    sankeyf = os.getcwd() + '/data/post2002-sankeyvis-changeofhands.csv'
+    sankeydf = pd.read_csv(sankeyf, sep=';', encoding='utf-8')
+    
+    gallery_sankey(sankeydf)
     
 
 def overview(df):
