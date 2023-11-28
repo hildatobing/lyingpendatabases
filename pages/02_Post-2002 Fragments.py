@@ -1,7 +1,9 @@
+import matplotlib.colors as mplc
 import numpy as np
 import os
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
 
@@ -71,11 +73,11 @@ def format_markdown(col_names, row, skip=0, searchres=False):
                 format_markdown_longline(col, 'Unknown')
 
 
-def content_graph(sub_df, groups):
+def content_histogram(sub_df, groups):
     data = []
-    for val, cnt in df['Content group'].value_counts().items():
+    for val, cnt in df['Content Group'].value_counts().items():
         label, order = val.split(', ')
-        canon = sub_df[sub_df['Content group'] == val].iloc[0]['Canonical group']
+        canon = sub_df[sub_df['Content Group'] == val].iloc[0]['Canonical Group']
         data.append([int(order), label, cnt, canon])
     data.sort(key=lambda x: int(x[0]))
     data = np.array(data)[:, 1:]
@@ -95,11 +97,11 @@ def content_graph(sub_df, groups):
 
 
 def content(df):
-    sub_df = df[['Content group', 'Canonical group']]
-    groups = [g.split(', ') for g in df['Content group'].unique()]
+    sub_df = df[['Content Group', 'Canonical Group']]
+    groups = [g.split(', ') for g in df['Content Group'].unique()]
     groups.sort(key=lambda x: int(x[1]))
 
-    content_graph(sub_df, groups)
+    content_histogram(sub_df, groups)
 
     options = [x[0] for x in groups]
     content_selected = st.selectbox(
@@ -107,7 +109,7 @@ def content(df):
     st.write('##')
     hits = st.empty()
 
-    results = df.loc[df['Content group'].str.startswith(content_selected)]
+    results = df.loc[df['Content Group'].str.startswith(content_selected)]
     for row in results.itertuples():
         with st.expander(row.Content):
             format_markdown(list(df.columns.values), row, skip=2)
@@ -185,6 +187,66 @@ def search(df):
     hits.markdown(txt, unsafe_allow_html=True)
 
 
+def get_rgba_hex(color_array, alpha=.8):
+    '''
+    To convert add transparencies to given color array
+    '''
+    ishex = True if color_array[0].startswith('#') else False
+    rgba_tuples, hex = [], []
+    rgb = None
+    if ishex:
+        rgb = np.array([mplc.to_rgb(x) for x in color_array]) * 255
+        hex = color_array.copy()
+    else:
+        rgblist = []
+        for rgbstr in color_array:
+            rgblist.append([int(x)/255. for x in rgbstr[4:-1].split(', ')])
+        rgb = np.array(rgblist) * 255.
+        hex = [mplc.to_hex(x).upper() for x in rgblist]
+
+    for x in rgb:
+        rgba_tuples.append(
+            'rgba(' + ','.join([str(int(i)) for i in x[:3]]) + \
+            ',' + str(alpha) + ')')
+        
+    return rgba_tuples, hex
+
+def gallery():
+    sankeyf = os.getcwd() + '/data/post2002-sankeyvis-changeofhands.csv'
+    sankeydf = pd.read_csv(sankeyf, sep=';', encoding='utf-8')
+    
+    # The operation '|' is a set union
+    set_nodes = set(sankeydf['Seller']) | set(sankeydf['Buyer'])
+    dict_nodes = dict(zip(set_nodes, np.arange(len(set_nodes))))
+
+    cmap_colors = [x for x in px.colors.qualitative.T10_r]
+    rgba, hex = get_rgba_hex(cmap_colors, alpha=0.8)
+
+    source, target, count = [], [], []
+    sankeynp = sankeydf.to_numpy()
+    for i in range(len(sankeynp)):
+        row = sankeynp[i, :]
+        source.append(dict_nodes[row[0]])
+        target.append(dict_nodes[row[1]])
+        count.append(int(row[2]))
+    fig = go.Figure(data=[go.Sankey(
+        arrangement = 'snap',
+        node = {"label": list(set_nodes), "thickness":35, "pad":10,
+                "color": [hex[i % len(hex)] for i in np.arange(len(set_nodes))],},
+        link = {"source": source, "target": target, "value": count,#}
+                "color": [rgba[i % len(hex)] for i in source]}
+    )])
+    fig.update_layout(
+        title_text='Flow diagram of the sale and donation of Post-2002 Fragments', height=600)
+    st.plotly_chart(fig, use_container_width=True)
+    st.caption(
+        '**Abbreviations:** \n - LMI: Legacy Ministries International \n - ATS: Ashland '\
+        'Theological Seminary \n - APU: Azusa Pacific University \n - SBTS: Southwestern'\
+        ' Baptist Theological Seminary \n - NCF: National Christian Foundation',
+        unsafe_allow_html=True)
+    st.write('##')
+    
+
 def overview(df):
     st.markdown(
         'In the table below, you can browse our database in its entirety. Note that an'\
@@ -194,13 +256,13 @@ def overview(df):
     st.dataframe(df1.iloc[:, :-2], hide_index=True)
 
 
-dbf = os.getcwd() + '/data/post2002DB-v2.xlsx'
+dbf = os.getcwd() + '/data/post2002DB-v2-1.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 # Selection of columns to show and process in this page
 cols = list(range(0, 23))
-cols = [x for x in cols if x not in [4, 18, 19]]
-print(cols)
+cols = [x for x in cols if x not in [1, 18, 19]]
+# print(cols)
 df = df.iloc[:, cols]
 
 st.header('The Post-2002 Dead Sea Scroll-like fragments')
@@ -216,7 +278,7 @@ st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 st.markdown('##')
 
-tabs = st.tabs(['Overview', 'Filter content', 'Search'])
+tabs = st.tabs(['Overview', 'Filter content', 'Search', 'Gallery'])
 
 
 tab_overview = tabs[0]
@@ -234,3 +296,7 @@ with tab_search:
     st.write('##')
     search(df)
 
+tab_gallery = tabs[3]
+with tab_gallery:
+    st.write('##')
+    gallery()
