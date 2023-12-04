@@ -160,7 +160,7 @@ def editor(df):
 
 
 def search(df):
-    query = str(st.text_input('Enter a query', ''))
+    query = str(st.text_input('Enter query', ''))
     st.markdown(
         '<sup>Type in a keyword to find all entries that contains it in the color'\
         ' description.</sup>', unsafe_allow_html=True)

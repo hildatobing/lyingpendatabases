@@ -76,19 +76,18 @@ def format_markdown(col_names, row, skip=0, searchres=False):
 
 
 def content(df):
-    # sub_df = df[['Content Group', 'Canonical Group']]
-    groups = [g.split(', ') for g in df['Content Group'].unique()]
+    groups = [g.split(', ') for g in df['Composition'].unique()]
     groups.sort(key=lambda x: int(x[1]))
 
     # content_histogram(sub_df, groups)
 
     options = [x[0] for x in groups]
     content_selected = st.selectbox(
-        'Select a grouping option', options=options)
+        'Select a composition', options=options)
     st.write('##')
     hits = st.empty()
 
-    results = df.loc[df['Content Group'].str.startswith(content_selected)]
+    results = df.loc[df['Composition'].str.startswith(content_selected)]
     for row in results.itertuples():
         with st.expander(row.Content):
             format_markdown(list(df.columns.values), row, skip=2)
@@ -157,29 +156,30 @@ def get_rgba_hex(color_array, alpha=.8):
 
 def gallery_histogram(sub_df, groups):
     data = []
-    for val, cnt in df['Content Group'].value_counts().items():
+    for val, cnt in df['Composition'].value_counts().items():
         label, order = val.split(', ')
-        canon = sub_df[sub_df['Content Group'] == val].iloc[0]['Canonical Group']
+        canon = sub_df[sub_df['Composition'] == val].iloc[0]['Canonical Categorisation']
         data.append([int(order), label, cnt, canon])
     data.sort(key=lambda x: int(x[0]))
     data = np.array(data)[:, 1:]
     
     # Plot chart
     bar = pd.DataFrame(
-        {'Texts':data[:, 0], 'Number of fragments':data[:, 1],
-         'Text groups':data[:, 2]})
+        {'Composition':data[:, 0], 'Number of fragments':data[:, 1],
+         'Canonical Categorisation':data[:, 2]})
     fig = px.bar(
-        bar, x='Texts', y='Number of fragments', 
-        color='Text groups', title='Textual distribution of Post-2002 Fragments',
+        bar, x='Composition', y='Number of fragments', 
+        color='Canonical Categorisation', title='Textual distribution of Post-2002 Fragments',
         color_discrete_sequence=px.colors.qualitative.Safe)
     fig.update_xaxes(tickangle=-45)
     fig.update_yaxes(range=[0, 13])
     st.plotly_chart(fig, use_container_width=True)
     st.caption(
-        'Distribution of the post-2002 fragments according to their textual content. '\
-        'Nearly 90\% of fragments with recognisable content feature text found in the'\
-        ' Old Testament. There are also fragments which have been identified with non'\
-        '-biblical Qumran manuscripts. 11 fragments have text that is not identified.'
+        'This diagram shows the distribution of the post-2002 fragments according to '\
+        'their textual content. Nearly 90\% of fragments with recognisable content fe'\
+        'ature text found in the Old Testament. There are also fragments which have b'\
+        'een identified with non-biblical Qumran manuscripts. 11 fragments have text '\
+        'that is not identified.'
     )
     st.write('##')
 
@@ -223,29 +223,26 @@ def gallery_sankey(sankeydf):
         ' Zero incoming flow count means that all the 55 items were traced back to him.'
     )
     st.caption(
-        'As a note, the actor "RE: William Kando" is the same as "William Kando". They a'\
-        're shown as different actors to avoid having a looped connection for the same '\
-        'actor, which will significantly reduce the readability of this visualisation.'
-    )
-    st.caption(
         '**Abbreviations:** \n - LMI: Legacy Ministries International \n - ATS: Ashland '\
-        'Theological Seminary \n - APU: Azusa Pacific University \n - SBTS: Southwestern'\
-        ' Baptist Theological Seminary \n - NCF: National Christian Foundation',
+        'Theological Seminary \n - APU: Azusa Pacific University \n - SWBTS: Southwester'\
+        'n Baptist Theological Seminary \n - NCF: National Christian Foundation',
         unsafe_allow_html=True)
     st.write('##')
 
 
 def gallery():
-    sub_df = df[['Content Group', 'Canonical Group']]
-    groups = [g.split(', ') for g in df['Content Group'].unique()]
+    sub_df = df[['Composition', 'Canonical Categorisation']]
+    groups = [g.split(', ') for g in df['Composition'].unique()]
     groups.sort(key=lambda x: int(x[1]))
-
     gallery_histogram(sub_df, groups)
+
+    st.divider()
 
     sankeyf = os.getcwd() + '/data/post2002-sankeyvis-changeofhands.csv'
     sankeydf = pd.read_csv(sankeyf, sep=';', encoding='utf-8')
-    
     gallery_sankey(sankeydf)
+
+    st.divider()
     
 
 def overview(df):
@@ -257,15 +254,15 @@ def overview(df):
     st.dataframe(df1.iloc[:, :-2], hide_index=True)
 
 
-dbf = os.getcwd() + '/data/post2002DB-v2-2.xlsx'
+dbf = os.getcwd() + '/data/post2002DB-v3.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 # Selection of columns to show and process in this page
-cols = list(range(0, 23))
-cols = [x for x in cols if x not in [1, 18, 19]]
+cols = list(range(0, 21))
+cols = [x for x in cols if x not in [1]]
 df = df.iloc[:, cols]
 
-st.header('The Post-2002 Dead Sea Scroll-like fragments')
+st.header('The Post-2002 Dead Sea Scrolls-like fragments')
 
 authors = 'Ludvik A. Kjeldsberg ' + format_markdown_orcid('0000-0001-5268-4983') + ', '
 authors += 'Årstein Justnes ' + format_markdown_orcid('0000-0001-6448-0507') + ', and '
@@ -278,7 +275,7 @@ st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 st.markdown('##')
 
-tabs = st.tabs(['Overview', 'Filter content', 'Search', 'Visualisations Gallery'])
+tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', 'Search'])
 
 
 tab_overview = tabs[0]
@@ -291,12 +288,12 @@ with tab_content:
     st.write('##')
     content(df)
 
-tab_search = tabs[2]
-with tab_search:
-    st.write('##')
-    search(df)
-
-tab_gallery = tabs[3]
+tab_gallery = tabs[2]
 with tab_gallery:
     st.write('##')
     gallery()
+
+tab_search = tabs[3]
+with tab_search:
+    st.write('##')
+    search(df)
