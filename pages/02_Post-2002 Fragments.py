@@ -208,25 +208,25 @@ def gallery_sankey(sankeydf):
                 "sourcesrc": 'Seller'}
     )])
     fig.update_layout(
-        title_text='Flow diagram of the sale and donation of Post-2002 Fragments', height=600)
+        title_text='Flow diagram of sales and donations of Post-2002 Fragments', height=600)
     st.plotly_chart(fig, use_container_width=True)
     st.caption(
         'This diagram visualizes the change of hands of Post-2002 Fragments, including s'\
-        'ale and donation. For example, hovering the flow between William Kando and Schø'\
-        'yen Collection will show the number 22.0, "source: William Kando", and "target:'\
-        ' Schøyen Collection". This means that there has been 22 purchases from the Schø'\
-        'yen Collection from William Kando. Note that this visualisation emphasizes flow'\
-        ' and not time. Representatives in a sale is also not visualised in this diagram'\
-        '. If we hover on the node of William Kando, we can see the number 55.0, "incomi'\
-        'ng flow count: 0", and "outgoing flow count: 12". This is to be interpreted as '\
-        'Kando has sold or donated 55 times, to 12 different people and/or institutions.'\
-        ' Zero incoming flow count means that all the 55 items were traced back to him.'
+        'ales and donations. For example, hovering the flow between William Kando and Sc'\
+        'høyen Collection will show the number 22.0, "source: William Kando", and "targe'\
+        't: Schøyen Collection". This means that there has been 22 purchases from the Sc'\
+        'høyen Collection from William Kando. Note that this visualisation emphasizes fl'\
+        'ow and not time. Representatives in a sale is also not visualised in this diagr'\
+        'am. Hovering over the node of William Kando, we can see the number 55.0, "incom'\
+        'ing flow count: 0", and "outgoing flow count: 12". This is to be interpreted as'\
+        ' Kando has sold or donated 55 times, to 12 different people and/or institutions'\
+        '. Zero incoming flow count means that all the 55 items were traced back to him.'
     )
     st.caption(
-        '**Abbreviations:** \n - LMI: Legacy Ministries International \n - ATS: Ashland '\
-        'Theological Seminary \n - APU: Azusa Pacific University \n - SWBTS: Southwester'\
-        'n Baptist Theological Seminary \n - NCF: National Christian Foundation',
-        unsafe_allow_html=True)
+        '**Abbreviations:** \n - APU: Azusa Pacific University \n - ATS: Ashland Theolog'\
+        'ical Seminary \n - FJCO: Foundation on Judaism and Christian Origin \n - LMI: L'\
+        'egacy Ministries International \n - NCF: National Christian Foundation \n - SWB'\
+        'TS: Southwestern Baptist Theological Seminary', unsafe_allow_html=True)
     st.write('##')
 
 
