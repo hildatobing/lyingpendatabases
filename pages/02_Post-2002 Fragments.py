@@ -49,17 +49,17 @@ def format_markdown_orcid(orcid):
 
 def format_markdown(col_names, row, skip=0, searchres=False):
     col_stop = -2 # To not include content and canonical grouping information
+    sale_exist = False
     for col, cell in zip(col_names[skip:col_stop], row[skip+1:col_stop]):
         if not pd.isna(cell):
             cell = cell.replace('$', '\$')
-            # if searchres:
-            #     cell = cell.replace(r'\bis\s+(Nr\s*\d+)', r'(\1)', regex=True)
             if col.lower().startswith('purchase'):
                 format_markdown_purchase(col, cell)
             elif col.lower().startswith('asking'):
                 format_markdown_longline(col, cell)
             elif col.lower().startswith('sale'):
                 format_markdown_longline(col, cell)
+                sale_exist = True
             elif col.lower() == 'sources':
                 format_markdown_list(
                     col, cell, delimiter='\n\n', ordered=False)
@@ -69,9 +69,9 @@ def format_markdown(col_names, row, skip=0, searchres=False):
                 else:
                     format_markdown_longline(col, cell)
         else:
-            if col.lower().startswith('purchase'):
+            if col.lower().startswith('purchase') and sale_exist:
                 format_markdown_purchase(col, 'Unknown')
-            elif col.lower().startswith('asking'):
+            elif col.lower().startswith('asking') and sale_exist:
                 format_markdown_longline(col, 'Unknown')
 
 
