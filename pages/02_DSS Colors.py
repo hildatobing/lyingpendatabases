@@ -188,7 +188,7 @@ def search(df):
     hits.markdown(txt, unsafe_allow_html=True)
 
 
-dbf = os.getcwd() + '/data/dsscolors-v1.xlsx'
+dbf = os.getcwd() + '/data/dsscolors-v2.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 
