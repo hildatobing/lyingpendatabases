@@ -173,6 +173,7 @@ def gallery_histogram(sub_df, groups):
         color_discrete_sequence=px.colors.qualitative.Safe)
     fig.update_xaxes(tickangle=-45)
     fig.update_yaxes(range=[0, 13])
+    fig.update_layout(font_family='sans-serif')
     st.plotly_chart(fig, use_container_width=True)
     st.caption(
         'This diagram shows the distribution of the post-2002 fragments according to '\
@@ -208,7 +209,8 @@ def gallery_sankey(sankeydf):
                 "sourcesrc": 'Seller'}
     )])
     fig.update_layout(
-        title_text='Flow diagram of sales and donations of Post-2002 Fragments', height=600)
+        title_text='Flow diagram of sales and donations of Post-2002 Fragments', 
+        font_family='sans-serif', height=600)
     st.plotly_chart(fig, use_container_width=True)
     st.caption(
         'This diagram visualizes the change of hands of Post-2002 Fragments, including s'\
