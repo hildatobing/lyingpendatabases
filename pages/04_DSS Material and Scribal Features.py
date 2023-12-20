@@ -76,38 +76,37 @@ def layout_single_manu(row):
         # Material information
         st.subheader(':scroll: Material information', anchor=None)
         mat_header = '**Material</br>Length <sub>(reconstructed)</sub></br>'\
-            'Margins</br></br></br></br></br>Page and column sizes**'
-        mat_content = '%s</br>%s</br>' %(
-            row.Material, row['Reconstructed Length'])
+            'Page height**'#'Margins</br></br></br></br></br>Page and column sizes**'
+        mat_content = '%s</br>%s</br>%s cm</br>' %(
+            row.Material, row['Reconstructed Length'], row['Page Height'])
+        colm1, colm2= st.columns([.7, 2], gap='small')
+        colm1.markdown(mat_header, unsafe_allow_html=True)
+        colm2.markdown(mat_content, unsafe_allow_html=True)            
+        
+        # Scribal features
+        st.subheader(':black_nib: Scribal features', anchor=None)
+        scrib_header = '**Dry lines? </br>Guide marks? </br>Margins'\
+            '</br></br></br></br></br>Column sizes</br></br>Distance'\
+            ' between lines</br>Letter height**'
+        scrib_check = format_markdown_checkmark(row['Dry Lines?']) + '</br>' +\
+            format_markdown_checkmark(row['Guide Marks?'])
+        margincol_hdr = '</br>*Top</br>Bottom</br>Left</br>Right</br>Between'\
+            ' columns</br>Column width</br>Column height*</br>'
         margins = '</br></br>%s mm</br>%s mm</br>%s mm</br>%s mm</br>%s mm' %(
             row['Top Margin'], row['Bottom Margin'], row['Left Margin'], 
             row['Right Margin'], row['Between Columns'])
-        psizes = '</br>%s cm</br>%s cm | %s letters</br>%s cm | %s lines' %(
-            row['Page Height'], row['Column Width cm'], 
-            row['Column Width Letters'], row['Column Height cm'], 
-            row['Column Height Lines'])
-        colm1, colm2= st.columns([.7, 2], gap='small')
-        colm1.markdown(mat_header, unsafe_allow_html=True)
-        with colm2:
-            m_hdr = '*Top</br>Bottom</br>Left</br>Right</br>Between'\
-                ' columns*</br>'
-            p_hdr = '*Page height</br>Column width</br>Column height*'
-            colm21, colm22 = st.columns([1, 2], gap='medium')
-            colm21.markdown(
-                mat_content + m_hdr + p_hdr, unsafe_allow_html=True)
-            colm22.markdown(margins + psizes, unsafe_allow_html=True)
-            
-
-        # Scribal features
-        st.subheader(':black_nib: Scribal features', anchor=None)
-        scrib_header = '**Dry lines? </br>Guide marks? </br>Distance between'\
-            ' lines </br>Letter height**'
-        scrib_feats = format_markdown_checkmark(row['Dry Lines?']) + '</br>' +\
-            format_markdown_checkmark(row['Guide Marks?']) + '</br>%s mm'\
-            %row['Distance Between Lines'] + '</br>%s mm' %row['Letter Height']
-        cols1, cols2 = st.columns([0.9, 2])
+        colsize = '</br>%s cm | %s letters</br>%s cm | %s lines' %(
+            row['Column Width cm'], row['Column Width Letters'], 
+            row['Column Height cm'], row['Column Height Lines'])
+        lineslet = '%s mm' %row['Distance Between Lines'] + '</br>%s mm' \
+            %row['Letter Height']
+        cols1, cols2 = st.columns([0.8, 2])
         cols1.markdown(scrib_header, unsafe_allow_html=True)
-        cols2.markdown(scrib_feats, unsafe_allow_html=True)
+        with cols2:
+            cols21, cols22 = st.columns([1, 2], gap='medium')
+            cols21.markdown(
+                scrib_check + margincol_hdr + lineslet, unsafe_allow_html=True)
+            cols22.markdown(margins + colsize, unsafe_allow_html=True)
     
 
 def single_manuscript(df):
