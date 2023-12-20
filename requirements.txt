@@ -47,6 +47,7 @@ rpds-py==0.9.2
 six==1.16.0
 smmap==5.0.0
 streamlit==1.29.0
+streamlit-aggrid==0.3.4
 streamlit-option-menu==0.3.2
 streamlit-tags==1.2.8
 tenacity==8.2.2
