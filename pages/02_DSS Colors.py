@@ -42,10 +42,10 @@ def format_markdown_orcid(orcid):
 
 def overview(df):
     st.markdown(
-        '<sup>Below are all color description entries found in the database. The '\
-        'header or column name is clickable, and is useful to sort the database b'\
-        'ased on the selected column, either in ascending or descending order.'\
-        '</sup>', unsafe_allow_html=True)
+        'Below are all color description entries found in the database. The heade'\
+        'r or column name is clickable, and is useful to sort the database based '\
+        'on the selected column, either in ascending or descending order.',
+        unsafe_allow_html=True)
     
     new_columns = df.columns.values
     new_columns[2] = 'Number of fragments'
@@ -56,11 +56,11 @@ def overview(df):
 def djdvolumes(df):
     query = st.text_input('Enter DJD volume', '')
     st.markdown(
-        '<sup>Type in the DJD volume of interest to show all entries with color'\
-        ' description found in that publication. Multiple entries is supported '\
-        'and must be written separated by commas, e.g., "12, 4". The keyword "N'\
-        'OT DJD" can also be used to retrieve colour descriptions found in othe'\
-        'r publications.</sup>', unsafe_allow_html=True)
+        'Type in the DJD volume of interest to show all entries with color desc'\
+        'ription found in that publication. Multiple entries is supported and m'\
+        'ust be written separated by commas, e.g., "12, 4". The keyword "NOT DJ'\
+        'D" can also be used to retrieve colour descriptions found in other pub'\
+        'lications.</sup>', unsafe_allow_html=True)
     hits = st.empty()
     txt = ''
     st.write('##')
@@ -114,10 +114,10 @@ def djdvolumes(df):
 def editor(df):
     query = st.text_input('Enter an editor\'s name', '')
     st.markdown(
-        '<sup>Type in the name of an editor to find entries made under the resp'\
-        'onsible editor. Note that despite a DJD volume having multiple editors'\
-        ', some color descriptions may have been recorded not under all editors'\
-        ' of its corresponding DJD volume.</sup>', unsafe_allow_html=True)
+        'Type in the name of an editor to find entries made under the responsib'\
+        'le editor. Note that despite a DJD volume having multiple editors, som'\
+        'e color descriptions may have been recorded not under all editors of i'\
+        'ts corresponding DJD volume.', unsafe_allow_html=True)
     hits = st.empty()
     st.write('##')
 
