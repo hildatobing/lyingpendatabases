@@ -67,8 +67,8 @@ def layout_single_manu(row):
         colt1.markdown(text_header, unsafe_allow_html=True)
         colt2.markdown(text_content, unsafe_allow_html=True)
 
-        text_header = '**Canon </br>Text </br>Range**'
-        text_content = row.Canon + '</br>' + row.Text + '</br>' + row.Range
+        text_header = '**Category </br>Text </br>Range**'
+        text_content = row.Category + '</br>' + row.Text + '</br>' + row.Range
         colt3, colt4 = st.columns([0.7, 2], gap='small')
         colt3.markdown(text_header, unsafe_allow_html=True)
         colt4.markdown(text_content, unsafe_allow_html=True)
