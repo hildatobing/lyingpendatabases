@@ -55,7 +55,7 @@ def overview(df):
 
 def djdvolumes(df):
     query = st.text_input('Enter DJD volume', '')
-    st.markdown(
+    st.caption(
         'Type in the DJD volume of interest to show all entries with color desc'\
         'ription found in that publication. Multiple entries is supported and m'\
         'ust be written separated by commas, e.g., "12, 4". The keyword "NOT DJ'\
@@ -113,7 +113,7 @@ def djdvolumes(df):
 
 def editor(df):
     query = st.text_input('Enter an editor\'s name', '')
-    st.markdown(
+    st.caption(
         'Type in the name of an editor to find entries made under the responsib'\
         'le editor. Note that despite a DJD volume having multiple editors, som'\
         'e color descriptions may have been recorded not under all editors of i'\
@@ -161,9 +161,9 @@ def editor(df):
 
 def search(df):
     query = str(st.text_input('Enter query', ''))
-    st.markdown(
-        '<sup>Type in a keyword to find all entries that contains it in the color'\
-        ' description.</sup>', unsafe_allow_html=True)
+    st.caption(
+        'Type in a keyword to find all entries that contains it in the color desc'\
+        'ription.', unsafe_allow_html=True)
     hits = st.empty()
     st.write('##')
 
