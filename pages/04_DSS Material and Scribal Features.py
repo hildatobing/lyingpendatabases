@@ -3,7 +3,7 @@ from st_aggrid import AgGrid, ColumnsAutoSizeMode, GridOptionsBuilder
 import os
 import pandas as pd
 import streamlit as st
-
+import sqlite3 as sql
 
 st.set_page_config(
     page_title="DSS Material and Scribal Features",
@@ -176,3 +176,7 @@ with tab_visualisation:
     st.write('##')
 
     # graph_textualcontent()
+    conn = sql.connect('lyingpen.sqlite3')
+    c = conn.cursor()
+    c.execute("""SELECT siglum FROM dss_main""")
+    st.write(len(c.fetchall())) # magic
