@@ -129,7 +129,7 @@ def single_manuscript(df):
 
 def overview(df):
     dfo = df.copy()
-    dfo.replace(['0', ], '', inplace=True)
+    dfo.replace(['0', ], '', inplace=True) # CONFIRM WITH MATTHEW
 
     # Configure grid options
     builder = GridOptionsBuilder.from_dataframe(dfo)
