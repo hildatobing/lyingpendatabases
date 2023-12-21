@@ -176,7 +176,9 @@ with tab_visualisation:
     st.write('##')
 
     # graph_textualcontent()
+
+    # Connection testing
     conn = sql.connect('lyingpen.sqlite3')
     c = conn.cursor()
     c.execute("""SELECT siglum FROM dss_main""")
-    st.write(len(c.fetchall())) # magic
+    st.write(len(c.fetchall()))
