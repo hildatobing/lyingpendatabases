@@ -1,3 +1,5 @@
+from authorship import show_authors
+
 import os
 import pandas as pd
 import streamlit as st
@@ -193,8 +195,7 @@ df = pd.read_excel(dbf, dtype=str)
 
 
 st.header('The Colors of the Dead Sea Scrolls Fragments')
-authors = 'Hilda Deborah ' + format_markdown_orcid('0000-0003-3779-2569')
-authors += ' and Signe M. Hægeland'
+authors = show_authors(['hildad', 'signemh'])
 st.markdown('By ' + authors, unsafe_allow_html=True)
 st.markdown('##')
 

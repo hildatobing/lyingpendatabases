@@ -1,3 +1,4 @@
+from authorship import show_authors
 import matplotlib.colors as mplc
 import numpy as np
 import os
@@ -266,10 +267,10 @@ df = df.iloc[:, cols]
 
 st.header('The Post-2002 Dead Sea Scrolls-like fragments')
 
-authors = 'Ludvik A. Kjeldsberg ' + format_markdown_orcid('0000-0001-5268-4983') + ', '
-authors += 'Årstein Justnes ' + format_markdown_orcid('0000-0001-6448-0507') + ', and '
-authors += 'Hilda Deborah ' + format_markdown_orcid('0000-0003-3779-2569')
+namekeys = ['ludvikak', 'arsteinj', 'hildad']
+authors = show_authors(namekeys, show_affil=False)
 st.markdown('By ' + authors, unsafe_allow_html=True)
+# st.markdown(affiliations, unsafe_allow_html=True)
 st.markdown('##')
 
 ftitle = open('assets/texts/lp_post_intro.txt', 'r')

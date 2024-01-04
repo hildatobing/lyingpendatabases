@@ -1,3 +1,4 @@
+from authorship import show_authors
 import datetime
 import os
 import pandas as pd
@@ -160,9 +161,10 @@ dbf = os.getcwd() + '/data/exhibition-v2.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 st.header('Dead Sea Scrolls Exhibitions in the 20th and 21st Centuries')
-st.markdown(
-    '<sup>By Ludvik A. Kjeldsberg</sup>', 
-    unsafe_allow_html=True)
+authors = show_authors(['ludvikak'])
+st.markdown('By ' + authors, unsafe_allow_html=True)
+st.markdown('##')
+
 st.write(
     'Since first being exhibited at the Library of Congress in Washington (DC), the Dead '\
     'Sea Scrolls have been featured in more than one hundred and sixty different exhibiti'\
