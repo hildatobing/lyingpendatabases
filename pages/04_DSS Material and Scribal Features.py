@@ -112,10 +112,9 @@ def layout_single_manuscript(dssid):
         colt1.markdown(text_header, unsafe_allow_html=True)
         colt2.markdown(text_content, unsafe_allow_html=True)
 
-        text_header = '**Category </br>Text </br>Range**' + spacephyl + \
-            '**Is phylactery?**'
-        text_content = category + '</br>' + text + '</br>' + textrange + \
-            '</br>' + format_markdown_checkmark(dss.is_phylactery.iloc[0])
+        text_header = '**Category </br>Is phylactery?</br>Text </br>Range**'
+        text_content = category + '</br>' + format_markdown_checkmark(
+            dss.is_phylactery.iloc[0]) + '</br>' + text + '</br>' + textrange
         colt3, colt4 = st.columns([0.7, 2], gap='small')
         colt3.markdown(text_header, unsafe_allow_html=True)
         colt4.markdown(text_content, unsafe_allow_html=True)
