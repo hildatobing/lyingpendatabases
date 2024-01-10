@@ -15,8 +15,11 @@ st.set_page_config(
 def remove_row_gap():
     st.markdown("""
         <style>
-        [data-testid=stVerticalBlock]{
-            row-gap: 0rem;
+        [data-testid=stVerticalBlock] >
+        div:last-of-type[data-testid=stVerticalBlockBorderWrapper] > 
+        div:first-of-type > 
+        div:first-of-type[data-testid=stVerticalBlock]{
+            gap: 0rem;
         }
         </style>
         """,unsafe_allow_html=True)
@@ -28,11 +31,15 @@ def format_markdown_orcid(orcid):
 
 
 def format_markdown_title(title):
-    final_word = title.split(' ')[-1]
-    if len(final_word) == 1:
-        fmt = "<sup style='font-size:.8em;'>%s</sup>" %final_word
-        return title[:-2] + fmt
-    return title
+    fmt_title = ''
+    for word in title.split(' '):
+        if len(word) == 1:
+            if word.isalpha():
+                word = "<sup style='font-size:.8em;'>%s</sup>" %word
+        else:
+            word = ' ' + word
+        fmt_title += word
+    return fmt_title + '</br>  </br>'
 
 
 def format_markdown_checkmark(entry):
@@ -83,7 +90,7 @@ def layout_single_manuscript(dssid):
         text = ', '.join([x for x in content.composition_gname])
         textrange = content.content_range.iloc[0] if len(content)==1 else\
             '</br>'.join([x + ' ' + str(y) for x, y in zip(
-            content.composition_gname, content.content_range)]).replace('None', '-')
+            content.composition_gname, content.content_range)])#.replace('None', '-')
         spacephyl = ''.join(['</br>']*len(content))
     
     # Font definition
@@ -100,10 +107,7 @@ def layout_single_manuscript(dssid):
         remove_row_gap()
 
         header = '<center><h2>%s - %s</h2></center>' %(dss.siglum.iloc[0], title)
-        st.write('##')
         st.markdown(header, unsafe_allow_html=True)
-        st.write('##')
-        st.write('##')
 
         # Reference information
         main_header = '**Site </br>Reference </br>URL**'
