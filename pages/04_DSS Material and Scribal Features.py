@@ -12,6 +12,16 @@ st.set_page_config(
 )
 
 
+def remove_row_gap():
+    st.markdown("""
+        <style>
+        [data-testid=stVerticalBlock]{
+            row-gap: 0rem;
+        }
+        </style>
+        """,unsafe_allow_html=True)
+    
+
 def format_markdown_orcid(orcid):
     return '<sup>[![](https://info.orcid.org/wp-content/uploads/2019/11/'\
         'orcid_16x16.png)](https://orcid.org/' + orcid + ')</sup>'
@@ -71,7 +81,7 @@ def layout_single_manuscript(dssid):
         category = content.canon_gname.iloc[0].title() if pd.isna(
             content.canon_gname2.iloc[0]) else content.canon_gname2.iloc[0].title()
         text = ', '.join([x for x in content.composition_gname])
-        textrange = content.content_range.iloc[0] if len(content==1) else\
+        textrange = content.content_range.iloc[0] if len(content)==1 else\
             '</br>'.join([x + ' ' + str(y) for x, y in zip(
             content.composition_gname, content.content_range)]).replace('None', '-')
         spacephyl = ''.join(['</br>']*len(content))
@@ -87,9 +97,12 @@ def layout_single_manuscript(dssid):
     
     title = format_markdown_title(dss.title.iloc[0])
     with st.container(border=True):
-        header = '<center><h2>%s - %s</h2></center>' %(
-            dss.siglum.iloc[0], title)
+        remove_row_gap()
+
+        header = '<center><h2>%s - %s</h2></center>' %(dss.siglum.iloc[0], title)
+        st.write('##')
         st.markdown(header, unsafe_allow_html=True)
+        st.write('##')
         st.write('##')
 
         # Reference information
@@ -104,23 +117,36 @@ def layout_single_manuscript(dssid):
         colh2.markdown(main_content, unsafe_allow_html=True)
 
         # Textual information
+        st.write('##')
+        st.write('##')
         st.subheader(':page_with_curl: Textual information', anchor=None)
+        st.write('##')
         text_header = '**Language </br>Script </br>Date**'
         text_content = dss.lang_name.iloc[0].title() + '</br>' +\
             dss.script_name.iloc[0].title() + '</br>' + dss.date_text.iloc[0]
         colt1, colt2 = st.columns([0.7, 2], gap='small')
         colt1.markdown(text_header, unsafe_allow_html=True)
         colt2.markdown(text_content, unsafe_allow_html=True)
-
-        text_header = '**Category </br>Is phylactery?</br>Text </br>Range**'
-        text_content = category + '</br>' + format_markdown_checkmark(
-            dss.is_phylactery.iloc[0]) + '</br>' + text + '</br>' + textrange
+        st.write('##')
+        
         colt3, colt4 = st.columns([0.7, 2], gap='small')
-        colt3.markdown(text_header, unsafe_allow_html=True)
-        colt4.markdown(text_content, unsafe_allow_html=True)
+        colt3.markdown('**Category </br>Text**', unsafe_allow_html=True)
+        colt4.markdown(category + '</br>' + text, unsafe_allow_html=True)
+
+        colt5, colt6 = st.columns([0.7, 2], gap='small')
+        colt5.markdown('**Range**', unsafe_allow_html=True)
+        colt6.markdown(textrange, unsafe_allow_html=True)
+
+        colt7, colt8 = st.columns([0.7, 2], gap='small')
+        colt7.markdown('**Is Phylactery?**', unsafe_allow_html=True)
+        colt8.markdown(format_markdown_checkmark(
+            dss.is_phylactery.iloc[0]), unsafe_allow_html=True)
 
         # Material information
+        st.write('##')
+        st.write('##')
         st.subheader(':scroll: Material information', anchor=None)
+        st.write('##')
         mat_header = '**Material</br>Length <sub>(reconstructed)</sub></br>'\
             'Page height**'#'Margins</br></br></br></br></br>Page and column sizes**'
         mat_content = dss.material_name.iloc[0].title() + '</br>' + \
@@ -132,9 +158,12 @@ def layout_single_manuscript(dssid):
         colm1, colm2= st.columns([.7, 2], gap='small')
         colm1.markdown(mat_header, unsafe_allow_html=True)
         colm2.markdown(mat_content, unsafe_allow_html=True)
-        print(scribal)
+        
         # Scribal features
+        st.write('##')
+        st.write('##')
         st.subheader(':black_nib: Scribal features', anchor=None)
+        st.write('##')
         scrib_header = '**Dry lines? </br>Guide marks? </br>Margins'\
             '</br></br></br></br></br>Column sizes</br></br>Distance'\
             ' between lines</br>Letter height**'
