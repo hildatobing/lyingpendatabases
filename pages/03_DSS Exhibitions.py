@@ -1,8 +1,9 @@
 from authorship import show_authors
-import datetime
 import os
 import pandas as pd
+import plotly.graph_objects as go
 import re
+import sqlite3 as sql
 import streamlit as st
 
 
@@ -147,21 +148,67 @@ def decade(df):
     hits.markdown(txt, unsafe_allow_html=True)
 
 
-def render_map(df):
+def map_exhibition_US():
+    # Establish connection and query all information
+    conn = sql.connect('lyingpen.sqlite3')
+    df = pd.read_sql_query(
+        """SELECT E.state_id, S.state_name, S.abbrv, COUNT(S.abbrv) as count
+        FROM exhibition E
+        LEFT JOIN country_US_state S ON E.state_id = S.state_id
+        WHERE E.country_id = '236'
+        GROUP BY E.state_id, S.state_name
+        ORDER BY count""", conn)
+    conn.commit()
+    conn.close()
 
-    fig = go.Figure(go.Scattergeo(
-        lat=df['Latitude'],
-        lon=df['Longitude'],
-        mode='markers',
-        text=df['Venue']))
-    st.plotly_chart(fig)
+    # Frequency of exhibitions in the U.S.
+    title = 'Number of Exhibitions in the United States'
+    fig = go.Figure(data=go.Choropleth(
+        locations=df['abbrv'], z=df['count'], locationmode='USA-states', colorscale='tempo',
+        autocolorscale=False, text=df['state_name'], marker_line_color='lightgray', 
+        marker_line_width=1.5, colorbar_title='Frequency'))
+    fig.update_layout(
+        title_text=title, font_family='sans-serif',
+        geo=dict(scope='usa'))
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def map_exhibition_world():
+    # Establish connection and query all information
+    conn = sql.connect('lyingpen.sqlite3')
+    df = pd.read_sql_query(
+        """SELECT E.exhibition_id, E.country_id, C.name, COUNT(E.country_id) as count
+        FROM exhibition E
+        LEFT JOIN country C ON E.country_id = C.country_id
+        GROUP BY E.country_id, E.name
+        ORDER BY count""", conn)
+    conn.commit()
+    conn.close()
+
+    # Frequency of exhibitions in the U.S.
+    title = 'Number of Exhibitions in the world (including U.S.)'
+    fig = go.Figure(data=go.Choropleth(
+        locations=df['name'], locationmode="country names", z=df['count'], 
+        colorscale='tempo',
+        marker_line_color='lightgray', 
+        marker_line_width=1.5, colorbar_title='Frequency'))
+    fig.update_layout(
+        title_text=title, font_family='sans-serif',
+        )
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def visualisation():
+    map_exhibition_US()
+    map_exhibition_world()
+
 
 
 dbf = os.getcwd() + '/data/exhibition-v2.xlsx'
 df = pd.read_excel(dbf, dtype=str)
 
 st.header('Dead Sea Scrolls Exhibitions in the 20th and 21st Centuries')
-authors = show_authors(['ludvikak'])
+authors = show_authors(['ludvikak', 'hildad'])
 st.markdown('By ' + authors, unsafe_allow_html=True)
 st.markdown('##')
 
@@ -176,15 +223,20 @@ st.write(
 
 
 
-tabs = st.tabs(['Overview', 'Filter decade'])
+tabs = st.tabs(['Overview', 'Filter decade', 'Visualisation gallery'])
 
 
-tab_collector = tabs[0]
-with tab_collector:
+tab_overview = tabs[0]
+with tab_overview:
     st.write('##')
     overview(df)
 
-tab_collector = tabs[1]
-with tab_collector:
+tab_decade = tabs[1]
+with tab_decade:
     st.write('##')
     decade(df)
+
+tab_vis = tabs[2]
+with tab_vis:
+    st.write('##')
+    visualisation()
