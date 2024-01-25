@@ -284,6 +284,13 @@ with tab_overview:
     #     ':green[Implementation notes: \n Use aggrid table, with possibility '\
     #     'of aggrid sorting showing a dropdown of available entries]', 
     #     unsafe_allow_html=True)
+    st.markdown(
+        'The table below shows Dead Sea scrolls and materials containing material '\
+        'and scribal information. This means that the list of scrolls and fragment'\
+        's itself are not complete. The table allows you to sort entries based on '\
+        'a chosen column, as well as advanced filter the entries. These advanced o'\
+        'ptions will show up upon hovering a column header.'
+    )
     overview(df)
 
 tab_details = tabs[1]
