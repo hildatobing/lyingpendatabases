@@ -204,7 +204,7 @@ def single_manuscript():
         layout_single_manuscript(dss.dss_id[idx])
         
 
-def overview(df):
+def overview():
     # Establish connection and query all information
     conn = sql.connect('lyingpen.sqlite3')
     matscrib = pd.read_sql_query("""SELECT * FROM dss_v_materialscribal""", conn)
@@ -262,8 +262,7 @@ def overview(df):
         columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS)
 
 
-dbf = os.getcwd() + '/data/dssmaterialscribal.xlsx'
-df = pd.read_excel(dbf, dtype=str, index_col=None)
+
 
 st.header('Dead Sea Scrolls Material and Scribal Features')
 
@@ -291,7 +290,7 @@ with tab_overview:
         'a chosen column, as well as advanced filter the entries. These advanced o'\
         'ptions will show up upon hovering a column header.'
     )
-    overview(df)
+    overview()
 
 tab_details = tabs[1]
 with tab_details:
