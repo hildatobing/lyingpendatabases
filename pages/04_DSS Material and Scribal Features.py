@@ -101,9 +101,13 @@ def layout_single_manuscript(dssid):
         main_content = dss.site.iloc[0]
         if main_content.lower() == 'qumran':
             main_content += ', Cave ' + str(dss.cave.iloc[0])
-        main_content += '</br>' + dss.djdtitle.iloc[0] + ' ' + dss.djdvol.iloc[0]
-        if not pd.isna(dss.djdpp.iloc[0]):
-            main_content += ', pp. ' + dss.djdpp.iloc[0]
+        if dss.djdtitle.iloc[0] == empty:
+            main_content += '</br>' + empty
+        else:
+            main_content += '</br>' + dss.djdtitle.iloc[0] + ' ' + dss.djdvol.iloc[0]
+            if dss.djdpp.iloc[0] != empty:
+                main_content += ', pp. ' + dss.djdpp.iloc[0]
+
         colh1, colh2 = st.columns([0.7, 2], gap='small')
         colh1.markdown('**Site </br>Reference**', unsafe_allow_html=True)
         colh2.markdown(main_content, unsafe_allow_html=True)
@@ -190,7 +194,7 @@ def single_manuscript():
     # Establish connection and read for dropdown option
     conn = sql.connect('lyingpen.sqlite3')
     dss = pd.read_sql_query(
-        """SELECT dss_id, siglum, title FROM dss_main""", conn)
+        """SELECT dssid, siglum, title FROM dss_v_materialscribal""", conn)
     conn.commit()
     conn.close()
 
@@ -205,7 +209,7 @@ def single_manuscript():
     # If a row is selected
     if selected is not None:
         idx = list(dss_options).index(selected)
-        layout_single_manuscript(dss.dss_id[idx])
+        layout_single_manuscript(dss.dssid[idx])
         
 
 def overview():
