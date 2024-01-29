@@ -98,15 +98,19 @@ def layout_single_manuscript(dssid):
         st.markdown(header, unsafe_allow_html=True)
 
         # Reference information
-        main_header = '**Site </br>Reference </br>URL**'
         main_content = dss.site.iloc[0]
         if main_content.lower() == 'qumran':
             main_content += ', Cave ' + str(dss.cave.iloc[0])
-        main_content += '</br>' + format_markdown_notimplemented() +\
-            '</br>' + dss.leonlevy_url.iloc[0]
+        main_content += '</br>' + dss.djdtitle.iloc[0] + ' ' + dss.djdvol.iloc[0]
+        if not pd.isna(dss.djdpp.iloc[0]):
+            main_content += ', pp. ' + dss.djdpp.iloc[0]
         colh1, colh2 = st.columns([0.7, 2], gap='small')
-        colh1.markdown(main_header, unsafe_allow_html=True)
+        colh1.markdown('**Site </br>Reference**', unsafe_allow_html=True)
         colh2.markdown(main_content, unsafe_allow_html=True)
+
+        colh3, colh4 = st.columns([0.7, 2], gap='small')
+        colh3.markdown('**URL**', unsafe_allow_html=True)
+        colh4.markdown(dss.leonlevy_url.iloc[0], unsafe_allow_html=True)
 
         # Textual information
         st.write('##')
