@@ -185,7 +185,7 @@ def gallery_histogram():
     st.write('##')
 
 
-def gallery_sankey(sankeydf):
+def gallery_sankey():
     # Connection testing
     conn = sql.connect('lyingpen.sqlite3')
     sankey = pd.read_sql_query(
@@ -251,11 +251,8 @@ def gallery_sankey(sankeydf):
 def gallery():
     gallery_histogram()
     st.divider()
-
-    sankeyf = os.getcwd() + '/data/post2002-sankeyvis-changeofhands.csv'
-    sankeydf = pd.read_csv(sankeyf, sep=';', encoding='utf-8')
-    gallery_sankey(sankeydf)
-
+    
+    gallery_sankey()
     st.divider()
     
 
