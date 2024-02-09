@@ -314,5 +314,5 @@ with tab_visualisation:
     # Connection testing
     conn = sql.connect('lyingpen.sqlite3')
     c = conn.cursor()
-    c.execute("""SELECT siglum FROM dss_main""")
+    c.execute("""SELECT * FROM dss_v_materialscribal""")
     st.write(len(c.fetchall()))
