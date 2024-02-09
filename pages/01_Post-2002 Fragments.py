@@ -205,7 +205,7 @@ def gallery_sankey():
     set_nodes = set(agg['seller']) | set(agg['buyer'])
     dict_nodes = dict(zip(set_nodes, np.arange(len(set_nodes))))
 
-    cmap_colors = [x for x in px.colors.qualitative.Safe]
+    cmap_colors = [x for x in px.colors.qualitative.Safe_r]
     rgba, hex = get_rgba_hex(cmap_colors, alpha=0.8)
     
     source, target, count = [], [], []
