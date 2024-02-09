@@ -186,15 +186,30 @@ def gallery_histogram():
 
 
 def gallery_sankey(sankeydf):
+    # Connection testing
+    conn = sql.connect('lyingpen.sqlite3')
+    sankey = pd.read_sql_query(
+        """SELECT * FROM post2002_v_sellerbuyer""", conn)
+    conn.commit()
+    conn.close()
+
+    agg = sankey.groupby(
+        ['seller', 'buyer'], sort=False, as_index=False).agg(
+        {'NumFragments': 'sum'})
+    # Handling loop in William Kando - Craig Lampe - William Kando case
+    idx = agg.index[(agg.seller == 'Craig Lampe') & (
+        agg.buyer == 'William Kando')].tolist()[0]
+    agg.at[idx, 'buyer'] = '-William Kando'
+    
     # The operation '|' is a set union
-    set_nodes = set(sankeydf['Seller']) | set(sankeydf['Buyer'])
+    set_nodes = set(agg['seller']) | set(agg['buyer'])
     dict_nodes = dict(zip(set_nodes, np.arange(len(set_nodes))))
 
-    cmap_colors = [x for x in px.colors.qualitative.T10_r]
+    cmap_colors = [x for x in px.colors.qualitative.Safe]
     rgba, hex = get_rgba_hex(cmap_colors, alpha=0.8)
-
+    
     source, target, count = [], [], []
-    sankeynp = sankeydf.to_numpy()
+    sankeynp = agg.to_numpy()
     for i in range(len(sankeynp)):
         row = sankeynp[i, :]
         source.append(dict_nodes[row[0]])
@@ -227,8 +242,9 @@ def gallery_sankey(sankeydf):
     st.caption(
         '**Abbreviations:** \n - APU: Azusa Pacific University \n - ATS: Ashland Theolog'\
         'ical Seminary \n - FJCO: Foundation on Judaism and Christian Origin \n - LMI: L'\
-        'egacy Ministries International \n - NCF: National Christian Foundation \n - SWB'\
-        'TS: Southwestern Baptist Theological Seminary', unsafe_allow_html=True)
+        'egacy Ministries International \n - NCF: National Christian Foundation \n - OCS'\
+        ': Oslo Cathedral School \n - SWBTS: Southwestern Baptist Theological Seminary', 
+        unsafe_allow_html=True)
     st.write('##')
 
 
