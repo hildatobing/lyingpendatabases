@@ -5,6 +5,7 @@ import os
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import sqlite3 as sql
 import streamlit as st
 
 
@@ -156,21 +157,23 @@ def get_rgba_hex(color_array, alpha=.8):
 
 
 def gallery_histogram(sub_df, groups):
-    data = []
-    for val, cnt in df['Composition'].value_counts().items():
-        label, order = val.split(', ')
-        canon = sub_df[sub_df['Composition'] == val].iloc[0]['Canonical Categorisation']
-        data.append([int(order), label, cnt, canon])
-    data.sort(key=lambda x: int(x[0]))
-    data = np.array(data)[:, 1:]
+
+    # Connection testing
+    conn = sql.connect('lyingpen.sqlite3')
+    dist = pd.read_sql_query(
+        """SELECT post.composition_gid, comp.composition_gname, COUNT(*) AS count, 
+        canon.canon_gname AS category FROM post2002frgs post
+        LEFT JOIN gr_composition comp ON post.composition_gid = comp.composition_gid
+        LEFT JOIN gr_canonical canon ON comp.canon_gid = canon.canon_gid
+        GROUP BY post.composition_gid""", conn)
+    dist.columns = ['ID', 'Composition', 'Number of fragments', 'Canonical categorisation']
+    conn.commit()
+    conn.close()
     
     # Plot chart
-    bar = pd.DataFrame(
-        {'Composition':data[:, 0], 'Number of fragments':data[:, 1],
-         'Canonical Categorisation':data[:, 2]})
     fig = px.bar(
-        bar, x='Composition', y='Number of fragments', 
-        color='Canonical Categorisation', title='Textual distribution of Post-2002 Fragments',
+        dist, x='Composition', y='Number of fragments', color='Canonical categorisation', 
+        title='Textual distribution of Post-2002 Fragments',
         color_discrete_sequence=px.colors.qualitative.Safe)
     fig.update_xaxes(tickangle=-45)
     fig.update_yaxes(range=[0, 13])
@@ -276,8 +279,13 @@ st.markdown('##')
 ftitle = open('assets/texts/lp_post_intro.txt', 'r')
 st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
-st.markdown('##')
+with st.expander('Cite this database'):
+    apa = 'Kjeldsberg, L. A., Å. Justnes, & H. Deborah. (2023). A Database of Post-2002'\
+        ' Dead Sea Scrolls-like Fragments. <i>Journal of Open Humanities Data, vol, '\
+        'articlenum</i>. DOI.'
+    st.markdown('<sup>**[APA]** ' + apa + ' </sup>', unsafe_allow_html=True)
 
+st.markdown('##')
 tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', 'Search'])
 
 
