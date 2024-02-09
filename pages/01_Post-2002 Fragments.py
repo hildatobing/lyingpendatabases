@@ -156,17 +156,13 @@ def get_rgba_hex(color_array, alpha=.8):
     return rgba_tuples, hex
 
 
-def gallery_histogram(sub_df, groups):
+def gallery_histogram():
 
     # Connection testing
     conn = sql.connect('lyingpen.sqlite3')
-    dist = pd.read_sql_query(
-        """SELECT post.composition_gid, comp.composition_gname, COUNT(*) AS count, 
-        canon.canon_gname AS category FROM post2002frgs post
-        LEFT JOIN gr_composition comp ON post.composition_gid = comp.composition_gid
-        LEFT JOIN gr_canonical canon ON comp.canon_gid = canon.canon_gid
-        GROUP BY post.composition_gid""", conn)
-    dist.columns = ['ID', 'Composition', 'Number of fragments', 'Canonical categorisation']
+    dist = pd.read_sql_query("""SELECT * FROM post2002_v_composition""", conn)
+    dist.columns = ['Composition', 'Number of fragments', 'CID', 
+                    'Canonical categorisation']
     conn.commit()
     conn.close()
     
@@ -237,11 +233,7 @@ def gallery_sankey(sankeydf):
 
 
 def gallery():
-    sub_df = df[['Composition', 'Canonical Categorisation']]
-    groups = [g.split(', ') for g in df['Composition'].unique()]
-    groups.sort(key=lambda x: int(x[1]))
-    gallery_histogram(sub_df, groups)
-
+    gallery_histogram()
     st.divider()
 
     sankeyf = os.getcwd() + '/data/post2002-sankeyvis-changeofhands.csv'
