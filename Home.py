@@ -21,7 +21,7 @@ st.set_page_config(
 
 
 # st.markdown('<h1>The Lying Pen of Scribes</h1>\n<h2>Databases and Resources</h2>', unsafe_allow_html=True)
-st.header('The Lying Pen of Scribes Dead Sea Scroll Databases')
+st.header('The Lying Pen of Scribes Dead Sea Scrolls Databases and Resources')
 st.markdown('##')
 ftitle = open('assets/texts/lp_frontpage_intro.txt', 'r')
 st.markdown(
