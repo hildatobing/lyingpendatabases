@@ -285,10 +285,10 @@ ftitle = open('assets/texts/lp_post_intro.txt', 'r')
 st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 with st.expander('Cite this database'):
-    apa = 'Kjeldsberg, L. A., Å. Justnes, & H. Deborah. (2023). A Database of Post-2002'\
-        ' Dead Sea Scrolls-like Fragments. <i>Journal of Open Humanities Data, vol, '\
-        'articlenum</i>. DOI.'
-    st.markdown('<sup>**[APA]** ' + apa + ' </sup>', unsafe_allow_html=True)
+    apa = 'Kjeldsberg, L. A., Justnes, Å., & Deborah, H. (2024). A Database of Post-2002'\
+        ' Dead Sea Scrolls-like Fragments. <i>Journal of Open Humanities Data</i>, 10: 25,'\
+        ' pp. 1–11. DOI: https://doi.org/10.5334/johd.140'
+    st.markdown(apa +, unsafe_allow_html=True)
 
 st.markdown('##')
 tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', 'Search'])
