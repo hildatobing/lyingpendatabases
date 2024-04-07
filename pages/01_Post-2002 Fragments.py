@@ -92,7 +92,7 @@ def content(df):
     results = df.loc[df['Composition'].str.startswith(content_selected)]
     for row in results.itertuples():
         with st.expander(row.Content):
-            format_markdown(list(df.columns.values), row, skip=2)
+            format_markdown(list(df.columns.values), row, skip=1)
             
     counter = len(results)
     if counter == 0:
@@ -115,13 +115,12 @@ def search(df):
         mask = np.column_stack(
             [df1[col].str.contains(post_query, case=False, na=False) \
              for col in df1])
-        print(mask)
         results = df1.loc[mask.any(axis=1)]
         counter = len(results)
 
         for res in results.itertuples():
             with st.expander(res.Content):
-                format_markdown(df1.columns.values, res, skip=2)
+                format_markdown(df1.columns.values, res, skip=1)
 
         if counter == 0:
             txt = ':red[No entries found]'
