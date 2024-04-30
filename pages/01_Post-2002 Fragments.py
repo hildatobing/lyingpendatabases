@@ -92,7 +92,7 @@ def content(df):
     results = df.loc[df['Composition'].str.startswith(content_selected)]
     for row in results.itertuples():
         with st.expander(row.Content):
-            format_markdown(list(df.columns.values), row, skip=2)
+            format_markdown(list(df.columns.values), row, skip=1)
             
     counter = len(results)
     if counter == 0:
@@ -115,13 +115,12 @@ def search(df):
         mask = np.column_stack(
             [df1[col].str.contains(post_query, case=False, na=False) \
              for col in df1])
-        print(mask)
         results = df1.loc[mask.any(axis=1)]
         counter = len(results)
 
         for res in results.itertuples():
             with st.expander(res.Content):
-                format_markdown(df1.columns.values, res, skip=2)
+                format_markdown(df1.columns.values, res, skip=1)
 
         if counter == 0:
             txt = ':red[No entries found]'
@@ -285,10 +284,10 @@ ftitle = open('assets/texts/lp_post_intro.txt', 'r')
 st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 with st.expander('Cite this database'):
-    apa = 'Kjeldsberg, L. A., Å. Justnes, & H. Deborah. (2023). A Database of Post-2002'\
-        ' Dead Sea Scrolls-like Fragments. <i>Journal of Open Humanities Data, vol, '\
-        'articlenum</i>. DOI.'
-    st.markdown('<sup>**[APA]** ' + apa + ' </sup>', unsafe_allow_html=True)
+    apa = 'Kjeldsberg, L. A., Justnes, Å., & Deborah, H. (2024). A Database of Post-2002'\
+        ' Dead Sea Scrolls-like Fragments. <i>Journal of Open Humanities Data</i>, 10(1)'\
+        ', 25. https://doi.org/10.5334/johd.140'
+    st.markdown(apa, unsafe_allow_html=True)
 
 st.markdown('##')
 tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', 'Search'])

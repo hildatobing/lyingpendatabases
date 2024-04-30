@@ -1,7 +1,7 @@
-<p>The Lying Pen of Scribes databases of the Dead Sea Scrolls provide exceptional insight into antiquity. By combining traditional scroll research with digital humanities, the databases provide innovative ways to browse through the vast collection of scrolls and fragments from the Qumran area. The databases cover a wide range of topics, e.g.,:</p>
+<p>The Lying Pen of Scribes project represents a new interdisciplinary and holistic approach to the Dead Sea Scrolls and seeks, among other things, to create a comprehensive, open access dataset to the scrolls. By combining traditional scroll research with digital humanities, the databases on this website provide innovative ways to approach the Dead Sea Scrolls. The databases cover a wide range of topics, e.g.,:</p>
 
 <ul>
 <li>	Post-2002 Dead Sea Scroll-like fragments.
-<li>	Dead Sea Scroll exhibitions in the 20th and 21st centuries.
+<li>	Dead Sea Scrolls exhibitions in the 20th and 21st centuries.
 <li>	Colours of the Dead Sea Scroll fragments.
 </ul>
