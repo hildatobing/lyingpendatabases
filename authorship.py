@@ -1,4 +1,5 @@
 import sqlite3 as sql
+from glob import glob
 
 
 def show_authors(namekeys, show_affil=False):
@@ -46,6 +47,19 @@ def get_author(namekey):
     affil = format_markdown_affiliation(dept, inst)
     address = format_markdown_address(city, country)
     return name, format_markdown_orcid(orcid), affil, address
+
+
+def team_card(namekey):
+    conn = sql.connect('lyingpen.sqlite3')
+    c = conn.cursor()
+    team = conn.execute(
+        "SELECT author_name, author_post, author_dept, author_inst "\
+        "FROM author_affiliation WHERE namekey = '%s'" %(namekey,))
+    name, post, dept, inst = team.fetchone()
+    conn.close()
+    
+    imurl = glob('assets/team/' + namekey + '*')[0]
+    return name, post, dept, inst, imurl
 
 
 def format_markdown_orcid(orcid):
