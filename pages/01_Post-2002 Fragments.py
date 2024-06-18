@@ -295,20 +295,16 @@ tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', '
 
 tab_overview = tabs[0]
 with tab_overview:
-    st.write('##')
     overview(df)
 
 tab_content = tabs[1]
 with tab_content:
-    st.write('##')
     content(df)
 
 tab_gallery = tabs[2]
 with tab_gallery:
-    st.write('##')
     gallery()
 
 tab_search = tabs[3]
 with tab_search:
-    st.write('##')
     search(df)
