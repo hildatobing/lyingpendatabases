@@ -86,7 +86,7 @@ def content(df):
     options = [x[0] for x in groups]
     content_selected = st.selectbox(
         'Select a composition', options=options)
-    st.write('##')
+    st.markdown('</br>', unsafe_allow_html=True)
     hits = st.empty()
 
     results = df.loc[df['Composition'].str.startswith(content_selected)]
@@ -106,7 +106,7 @@ def search(df):
     df1 = df.copy()
 
     post_query = str(st.text_input('Enter query', ''))
-    st.write('##')
+    st.markdown('</br>', unsafe_allow_html=True)
     hits = st.empty()
 
     txt = ''
@@ -294,16 +294,20 @@ tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', '
 
 tab_overview = tabs[0]
 with tab_overview:
+    st.markdown('</br>', unsafe_allow_html=True)
     overview(df)
 
 tab_content = tabs[1]
 with tab_content:
+    st.markdown('</br>', unsafe_allow_html=True)
     content(df)
 
 tab_gallery = tabs[2]
 with tab_gallery:
+    st.markdown('</br>', unsafe_allow_html=True)
     gallery()
 
 tab_search = tabs[3]
 with tab_search:
+    st.markdown('</br>', unsafe_allow_html=True)
     search(df)
