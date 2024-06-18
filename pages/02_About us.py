@@ -63,14 +63,9 @@ def list_pastmembers():
                     row.past_contribution + '</sup>]'
                 st.markdown(text, unsafe_allow_html=True)
 
-
-# st.subheader('What is the Dead Sea Scrolls Lab')
-# st.markdown(':red[Some intro text here]', unsafe_allow_html=True)
-# st.markdown('##')
-
 st.subheader('The team')
 list_coreteam()
 
-st.markdown('##')
+st.markdown('</br>')
 st.markdown('<h4>Past team members</h4>', unsafe_allow_html=True)
 list_pastmembers()
