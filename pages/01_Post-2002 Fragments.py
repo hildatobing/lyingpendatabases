@@ -288,7 +288,6 @@ with st.expander('Cite this database'):
         ', 25. https://doi.org/10.5334/johd.140'
     st.markdown(apa, unsafe_allow_html=True)
 
-st.markdown('</br></br>', unsafe_allow_html=True)
 tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', 'Search'])
 
 
