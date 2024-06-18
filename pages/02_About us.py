@@ -66,6 +66,6 @@ def list_pastmembers():
 st.subheader('The team')
 list_coreteam()
 
-st.markdown('</br>')
+st.markdown('</br>', unsafe_allow_html=True)
 st.markdown('<h4>Past team members</h4>', unsafe_allow_html=True)
 list_pastmembers()
