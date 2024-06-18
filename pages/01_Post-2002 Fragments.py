@@ -181,7 +181,7 @@ def gallery_histogram():
         'een identified with non-biblical Qumran manuscripts. 11 fragments have text '\
         'that is not identified.'
     )
-    st.write('##')
+    st.markdown('</br>', unsafe_allow_html=True)
 
 
 def gallery_sankey():
@@ -244,7 +244,7 @@ def gallery_sankey():
         'egacy Ministries International \n - NCF: National Christian Foundation \n - OCS'\
         ': Oslo Cathedral School \n - SWBTS: Southwestern Baptist Theological Seminary', 
         unsafe_allow_html=True)
-    st.write('##')
+    st.markdown('</br>', unsafe_allow_html=True)
 
 
 def gallery():
