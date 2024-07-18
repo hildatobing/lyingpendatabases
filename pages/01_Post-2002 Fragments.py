@@ -279,6 +279,7 @@ authors = show_authors(namekeys, show_affil=False)
 st.markdown('By ' + authors, unsafe_allow_html=True)
 st.markdown('</br>', unsafe_allow_html=True)
 
+st.write('##')
 ftitle = open('assets/texts/lp_post_intro.txt', 'r')
 st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
@@ -288,7 +289,7 @@ with st.expander('Cite this database'):
         ', 25. https://doi.org/10.5334/johd.140'
     st.markdown(apa, unsafe_allow_html=True)
 
-st.markdown('</br>', unsafe_allow_html=True)
+st.markdown('##', unsafe_allow_html=True)
 tabs = st.tabs(['Overview', 'Filter textual content', 'Visualisation gallery', 'Search'])
 
 
