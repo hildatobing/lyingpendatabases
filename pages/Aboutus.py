@@ -6,10 +6,10 @@ import pandas as pd
 import streamlit as st
 import sqlite3 as sql
 
-st.set_page_config(
-    page_title="About",
-    page_icon='assets/Icon.png'
-)
+# st.set_page_config(
+#     page_title="About",
+#     page_icon='assets/Icon.png'
+# )
 
 def circle_image():
     st.markdown("""
@@ -29,7 +29,7 @@ def circle_image():
     
 
 def list_coreteam():
-    namekeys = ['hildad', 'arsteinj', 'ludvikak'] #'matthewpm', 
+    namekeys = ['hildad', 'arsteinj', 'ludvikak', 'matthewpm']
     circle_image()
     for nk in namekeys:
         colphoto, coltext = st.columns([0.3, 2])

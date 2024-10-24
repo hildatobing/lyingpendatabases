@@ -9,10 +9,10 @@ import sqlite3 as sql
 import streamlit as st
 
 
-st.set_page_config(
-    page_title="Post-2002 Dead Sea Scrolls-like Fragments",
-    page_icon='assets/Icon.png'
-)
+# st.set_page_config(
+#     page_title="Post-2002 Dead Sea Scrolls-like Fragments",
+#     page_icon='assets/Icon.png'
+# )
 
 def five_colors():
     return ['#262622', '#D98E32', '#8C503A', '#D98162', '#D9AB9A']
