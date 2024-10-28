@@ -44,7 +44,7 @@ def list_coreteam():
             st.markdown(text, unsafe_allow_html=True)
 
 
-def list_pastmembers():
+def list_studentmembers():
     conn = sql.connect('lyingpen.sqlite3')
     pastteam = pd.read_sql_query(
             """SELECT name_key, name, past_contribution FROM db_author 
@@ -67,5 +67,5 @@ st.subheader('The team')
 list_coreteam()
 
 st.markdown('##', unsafe_allow_html=True)
-st.markdown('<h4>Past team members</h4>', unsafe_allow_html=True)
-list_pastmembers()
+st.markdown('<h4>Student team members</h4>', unsafe_allow_html=True)
+list_studentmembers()
