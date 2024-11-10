@@ -156,10 +156,11 @@ def get_rgba_hex(color_array, alpha=.8):
 
 
 def gallery_histogram():
-
     # Connection testing
     conn = sql.connect('lyingpen.sqlite3')
-    dist = pd.read_sql_query("""SELECT * FROM post2002_v_composition""", conn)
+    dist = pd.read_sql_query(
+        """SELECT composition, frequency, canon_id, canon 
+        FROM post2002_v_composition""", conn)
     dist.columns = ['Composition', 'Number of fragments', 'CID', 
                     'Canonical categorisation']
     conn.commit()
@@ -167,7 +168,8 @@ def gallery_histogram():
     
     # Plot chart
     fig = px.bar(
-        dist, x='Composition', y='Number of fragments', color='Canonical categorisation', 
+        dist, x='Composition', y='Number of fragments', 
+        color='Canonical categorisation', 
         title='Textual distribution of Post-2002 Fragments',
         color_discrete_sequence=px.colors.qualitative.Safe)
     fig.update_xaxes(tickangle=-45)
