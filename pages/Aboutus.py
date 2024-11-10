@@ -48,7 +48,7 @@ def list_studentmembers():
     conn = sql.connect('lyingpen.sqlite3')
     pastteam = pd.read_sql_query(
             """SELECT name_key, name, past_contribution FROM db_author 
-            WHERE past_member=1""", conn)
+            WHERE flag_studentmember=1""", conn)
     conn.close()
 
     for row in pastteam.itertuples():

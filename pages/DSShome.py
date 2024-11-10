@@ -20,5 +20,10 @@ st.subheader('The Lying Pen of Scribes Research Project')
 ftitle = open('assets/texts/lp_frontpage_project.txt', 'r')
 st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
+st.markdown('##')
 
-# st.markdown(':red[Intro for the webpage, that it is for datasets and resources]')
+c1, c2, c3, c4 = st.columns(
+    [1, 1, 1, 0.7], gap='small', vertical_alignment='center')
+c1.image('assets/logo-uia.jpg')
+c2.image('assets/logo-ntnu.png')
+c3.image('assets/logo-mf.png')
