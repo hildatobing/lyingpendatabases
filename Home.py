@@ -14,6 +14,10 @@ pages = {
     'Databases': [
         # st.Page('pages/DSSscribal.py', title='DSS Physical and Scribal Features'),
         st.Page('pages/Post2002.py', title='Post 2002 Fragments')
+    ],
+    'Resources': [
+        st.Page('pages/PosterArt.py', title='Art & Illustrations', 
+                icon=':material/palette:')
     ]
 }
 
