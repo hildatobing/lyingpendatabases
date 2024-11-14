@@ -9,14 +9,14 @@ st.set_page_config(
 
 pages = {
     'The Lying Pen of Scribes': [
-        st.Page('pages/DSShome.py', title='About', icon=':material/home:'),
-        st.Page('pages/Aboutus.py', title='People', icon=':material/groups:')],
+        st.Page('dbpages/DSShome.py', title='About', icon=':material/home:'),
+        st.Page('dbpages/Aboutus.py', title='People', icon=':material/groups:')],
     'Databases': [
         # st.Page('pages/DSSscribal.py', title='DSS Physical and Scribal Features'),
-        st.Page('pages/Post2002.py', title='Post 2002 Fragments')
+        st.Page('dbpages/Post2002.py', title='Post 2002 Fragments')
     ],
     'Resources': [
-        st.Page('pages/PosterArt.py', title='Art & Illustrations', 
+        st.Page('dbpages/PosterArt.py', title='Art & Illustrations', 
                 icon=':material/palette:')
     ]
 }
