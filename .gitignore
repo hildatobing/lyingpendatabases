@@ -1,0 +1,3 @@
+.DS_Store
+.venv/*
+__pycache__/authorship.cpython-310.pyc
