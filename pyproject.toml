@@ -1,0 +1,26 @@
+# How to use Poetry
+# Install/Docs: https://python-poetry.org/docs/
+# Run project: poetry run streamlit run Home.py --server.enableCORS false --server.enableXsrfProtection false
+
+[tool.poetry]
+name = "lyingpendatabases"
+version = "0.0.0"  # Placeholder for version number
+description = ""
+authors = ["Hilda Deborah", "Årstein Justnes", "Ludvik A. Kjeldsberg", "Matthew P. Monger"]
+readme = "README.md"
+
+# Poetry versioning: https://python-poetry.org/docs/dependency-specification/
+# How to bump versions on requirements: poetry update
+[tool.poetry.dependencies]
+python = "^3.11"
+
+streamlit = "^1.39"
+pandas = "^2.0"
+matplotlib = "^3.7"
+numpy = "^1.25"
+plotly = "^5.18"
+openpyxl = "^3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
