@@ -17,7 +17,9 @@ pages = {
     ],
     'Resources': [
         st.Page('dbpages/PosterArt.py', title='Art & Illustrations', 
-                icon=':material/palette:')
+                icon=':material/palette:'),
+        st.Page('dbpages/Podcast.py', title='Podcast', 
+                icon=':material/podcasts:')
     ]
 }
 

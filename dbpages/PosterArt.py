@@ -37,3 +37,6 @@ st.image(
     caption='Symposium, 29 August-1 September 2022')
 st.image(
     'assets/art/2022-12-UiAconf.png', caption='Conference, 12-14 December 2022')
+
+c5, c6 = st.columns([1, 1], gap='medium')
+c5.image('assets/art/podcast.png', caption='Podcast (in Norwegian)')
