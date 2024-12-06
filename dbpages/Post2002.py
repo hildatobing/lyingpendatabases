@@ -282,7 +282,7 @@ st.markdown('By ' + authors, unsafe_allow_html=True)
 st.markdown('</br>', unsafe_allow_html=True)
 
 st.write('##')
-ftitle = open('assets/texts/lp_post_intro.txt', 'r')
+ftitle = open('assets/texts/lp_post_intro.txt', 'r', encoding='utf-8')
 st.markdown(
     '<div style="text-align: justify;">'+ftitle.read()+'</div>', unsafe_allow_html=True)
 with st.expander('Cite this database'):

@@ -17,9 +17,9 @@
       ]
     }
   },
-  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y <packages.txt; [ -f requirements.txt ] && pip3 install --user -r requirements.txt; pip3 install --user streamlit; echo '✅ Packages installed and Requirements met'",
+  "updateContentCommand": "[ -f packages.txt ] && sudo apt update && sudo apt upgrade -y && sudo xargs apt install -y < packages.txt; curl -sSL https://install.python-poetry.org | python3 - && poetry config virtualenvs.create false && poetry install --no-interaction --no-root && echo '✅ Packages installed and Poetry dependencies met'",
   "postAttachCommand": {
-    "server": "streamlit run Home.py --server.enableCORS false --server.enableXsrfProtection false"
+    "server": "poetry run streamlit run Home.py --server.enableCORS false --server.enableXsrfProtection false"
   },
   "portsAttributes": {
     "8501": {
