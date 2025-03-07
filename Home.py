@@ -13,6 +13,7 @@ pages = {
         st.Page('dbpages/Aboutus.py', title='People', icon=':material/groups:')],
     'Databases': [
         st.Page('dbpages/DSSscribal.py', title='DSS Physical and Scribal Features'),
+        st.Page('dbpages/DSSexhibitions.py', title='DSS Exhibitions'),
         st.Page('dbpages/Post2002.py', title='Post 2002 Fragments')
     ],
     'Resources': [
