@@ -361,7 +361,7 @@ with st.expander('Cite this database'):
         'lls Exhibitions in the 20th and 21st Centuries. <i>In preparation</i>.'
     st.markdown(apa, unsafe_allow_html=True)
 
-st.write('##')
+st.markdown('</br>', unsafe_allow_html=True)
 tabs = st.tabs(
     ['Overview', 'Filter by Decade', 'Visualisation Gallery', 'Search'])
 
