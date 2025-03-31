@@ -261,7 +261,7 @@ def hist_exhibition():
         df, x='year', y='numperyear', title='Number of Exhibitions per Year',
         color_discrete_sequence=px.colors.qualitative.Safe)
     fig.add_vline(2002, line_width=2.5, line_color=px.colors.qualitative.Safe[1])
-    fig.update_xaxes(tickangle=-45, title='Year')
+    fig.update_xaxes(tickangle=-45, title='Year', tick0=1950, dtick=5)
     fig.update_yaxes(
         range=[0, df['numperyear'].max()+4], title='Number of exhibitions')
     fig.add_annotation(
@@ -348,12 +348,13 @@ st.markdown('By ' + authors, unsafe_allow_html=True)
 st.write('##')
 
 st.write(
-    'Since first being exhibited at the Library of Congress in Washington (DC), the Dead '\
-    'Sea Scrolls have been featured in more than one hundred and sixty different exhibiti'\
-    'ons worldwide. These exhibitions span over seven decades, from 1949 to the late 2010'\
-    's, and over six continents. But most of them have taken place in the US. This articl'\
-    'e describes a database of these exhibitions. The database contains information about'\
-    ' exhibition venues, dates, curators, et cetera, manually collected and catalogued.')
+    'Since first being exhibited at the Library of Congress in Washington (DC)'\
+    ', the Dead Sea Scrolls have been featured in more than 150 different exhi'\
+    'bitions worldwide. These exhibitions span over seven decades, from 1949 t'\
+    'o the late 2010s, and over six continents. But most of them have taken pl'\
+    'ace in the US. This article describes a database of these exhibitions. Th'\
+    'e database contains information about exhibition venues, dates, curators,'\
+    ' et cetera, manually collected and catalogued.')
 
 
 with st.expander('Cite this database'):
